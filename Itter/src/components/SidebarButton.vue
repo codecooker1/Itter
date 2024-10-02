@@ -23,8 +23,9 @@
 
 <style>
 @media screen and (max-width: 768px) {
-  span .btn-text {
+  .btn-text {
     visibility: hidden;
+    display: none;
   }
 }
 </style>

@@ -66,24 +66,20 @@ import IconBell from './icons/IconBell.vue'
   justify-content: flex-start;
   align-items: flex-start;
   position: fixed;
+  width: inherit;
 }
+
 @media screen and (max-width: 768px) {
   span .btn-text {
     visibility: hidden;
   }
-  .sidebar {
-    width: 55px;
-  }
 }
+
 .sidebar li {
   font-weight: bold;
 }
+
 .sidebar ul {
   list-style-type: none;
 }
-/*
-.items {
-  margin: 15px;
-  padding: 25px;
-}*/
 </style>

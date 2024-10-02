@@ -109,9 +109,9 @@
         voluptatum numquam!
       </SinglePost>
     </main>
-      <div class="sidebar-wrapper">
-        <SidebarView />
-      </div>
+    <div class="sidebar-wrapper">
+      <SidebarView />
+    </div>
 
   </div>
 </template>
@@ -123,6 +123,9 @@ import SidebarView from '@/components/SidebarView.vue'
 </script>
 
 <style>
+.sidebar-wrapper {
+  width: fit-content;
+}
 
 .structure {
   display: flex;
@@ -143,13 +146,21 @@ import SidebarView from '@/components/SidebarView.vue'
 
 @media screen and (max-width: 1174px) {
   .feedarea {
-    width: calc(100% - 278px);
+    width: calc(100% - 210px);
+  }
+
+  .sidebar-wrapper {
+    width: 210px;
   }
 }
 
 @media screen and (max-width: 768px) {
   .feedarea {
     width: calc(100% - 55px);
+  }
+
+  .sidebar-wrapper {
+    width: 55px;
   }
 }
 

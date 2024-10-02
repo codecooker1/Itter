@@ -31,11 +31,13 @@ import IconIncognito from './icons/IconIncognito.vue'
 article {
   display: block;
   border-bottom: 1px solid var(--border-nord);
-  background-color: #2e3440; /*#222222;*/
+  background-color: #2e3440;
+  /*#222222;*/
   min-height: 54px;
   padding: 16px;
   width: 99%;
 }
+
 .poster-info {
   display: flex;
   align-items: center;

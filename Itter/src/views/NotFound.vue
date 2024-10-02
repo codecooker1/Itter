@@ -21,6 +21,7 @@
         </router-link>
       </div>
     </div>
+    <iframe id="iframe" title="prayerWidget" class="widget-m-top" style=" height: 358px; border: 1px solid #81a1c1; background-color: #2e3440; color: #d8dee9;" scrolling="no" src="https://www.islamicfinder.org/prayer-widget/1185241/hanfi/8/0/12.0/12.0"> </iframe> 
   </section>
 </template>
 

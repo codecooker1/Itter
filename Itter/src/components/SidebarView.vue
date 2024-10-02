@@ -65,6 +65,7 @@ import IconBell from './icons/IconBell.vue'
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  position: fixed;
 }
 @media screen and (max-width: 768px) {
   span .btn-text {

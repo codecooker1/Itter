@@ -148,6 +148,12 @@ import SidebarView from '@/components/SidebarView.vue'
   }
 }
 
+@media screen and (max-width: 768px) {
+  .feedarea {
+    width: calc(100% - 55px);
+  }
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 7px;

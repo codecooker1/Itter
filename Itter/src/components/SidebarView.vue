@@ -59,17 +59,20 @@ import IconBell from './icons/IconBell.vue'
 </template>
 
 <style lang="css">
-aside.sidebar {
-  grid-area: sidebar;
-}
 .sidebar {
   display: flex;
   gap: 20px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  /*padding: 20px;*/
-  height: 89vh;
+}
+@media screen and (max-width: 768px) {
+  span .btn-text {
+    visibility: hidden;
+  }
+  .sidebar {
+    width: 55px;
+  }
 }
 .sidebar li {
   font-weight: bold;

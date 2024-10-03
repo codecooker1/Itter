@@ -8,7 +8,9 @@
       </textarea>
       <input type="submit" />
     </form>
+    <div class="flex-spacer"> </div>
   </aside>
+  
 </template>
 
 <script setup></script>
@@ -19,9 +21,11 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
-  gap: 20px;
   overflow: hidden;
   width: inherit;
   position: fixed;
+}
+.flex-spacer{
+  flex: 1 1 auto;
 }
 </style>

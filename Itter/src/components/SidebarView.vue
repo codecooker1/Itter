@@ -55,7 +55,9 @@ import IconBell from './icons/IconBell.vue'
         </ul>
       </div>
     </div>
+    <div class="flex-spacer"></div>
   </aside>
+  
 </template>
 
 <style lang="css">
@@ -67,6 +69,10 @@ import IconBell from './icons/IconBell.vue'
   align-items: flex-start;
   position: fixed;
   width: inherit;
+}
+
+.flex-spacer{
+  flex: 1 1 auto;
 }
 
 @media screen and (max-width: 768px) {

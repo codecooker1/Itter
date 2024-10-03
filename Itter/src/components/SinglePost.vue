@@ -60,6 +60,7 @@ article {
   gap: 10px;
   flex-wrap: nowrap;
   height: 42px;
+  width: 42px;
 }
 
 .action-bar {

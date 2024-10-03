@@ -128,16 +128,19 @@ import UserSidebar from '@/components/UserSidebar.vue'
 .sidebar-wrapper {
   min-width: 200px;
   height: fit-content;
+  display: flex;
 }
 
 .usersidebar-wrapper {
   min-width: 200px;
+  display: flex;
 }
 
 .structure {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  gap:20px;
 }
 
 .feedarea {

@@ -18,13 +18,19 @@
     </div>
     <div class="media-gallery"></div>
     <div class="action-bar">
-      <p>action bar</p>
+
+      <LikeButton />
+
+      <p>Repost</p>
+      <p>Share</p>
+      <p>Comment</p>
     </div>
   </article>
 </template>
 
 <script setup>
 import IconIncognito from './icons/IconIncognito.vue'
+import LikeButton from './LikeButton.vue';
 </script>
 
 <style scoped>
@@ -51,5 +57,6 @@ article {
   display: flex;
   flex-direction: row;
   color: red;
+  justify-content: space-around;
 }
 </style>

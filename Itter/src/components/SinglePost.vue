@@ -18,9 +18,10 @@
     </div>
     <div class="media-gallery"></div>
     <div class="action-bar">
-
-      <LikeButton />
-
+      <div class="action-btn">
+        <LikeButton />
+        <p>123</p>
+      </div>
       <p>Repost</p>
       <p>Share</p>
       <p>Comment</p>
@@ -31,6 +32,9 @@
 <script setup>
 import IconIncognito from './icons/IconIncognito.vue'
 import LikeButton from './LikeButton.vue';
+
+//const props = defineProps(["likeCount"]);
+
 </script>
 
 <style scoped>
@@ -42,6 +46,11 @@ article {
   min-height: 54px;
   padding: 16px;
   width: 99%;
+}
+
+.action-btn {
+  display: ruby;
+  font-size: 12px;
 }
 
 .poster-info {

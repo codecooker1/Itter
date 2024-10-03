@@ -1,5 +1,8 @@
 <template>
   <div class="structure">
+    <div class="usersidebar-wrapper">
+      <UserSidebar />
+    </div>
     <main class="feedarea">
       <div class="h-2"></div>
       <SinglePost> </SinglePost>
@@ -112,19 +115,23 @@
     <div class="sidebar-wrapper">
       <SidebarView />
     </div>
-
   </div>
 </template>
 
 <script setup>
 import SinglePost from '@/components/SinglePost.vue'
 import SidebarView from '@/components/SidebarView.vue'
-//import UserSidebar from '@/components/UserSidebar.vue'
+import UserSidebar from '@/components/UserSidebar.vue'
 </script>
 
 <style>
 .sidebar-wrapper {
-  width: fit-content;
+  min-width: 200px;
+  height: fit-content;
+}
+
+.usersidebar-wrapper {
+  min-width: 200px;
 }
 
 .structure {
@@ -146,11 +153,16 @@ import SidebarView from '@/components/SidebarView.vue'
 
 @media screen and (max-width: 1174px) {
   .feedarea {
-    width: calc(100% - 210px);
+    width: calc(100% - 285px);
   }
 
   .sidebar-wrapper {
-    width: 210px;
+    min-width: 210px;
+  }
+
+  .usersidebar-wrapper {
+    display: none;
+    visibility: hidden;
   }
 }
 
@@ -160,7 +172,7 @@ import SidebarView from '@/components/SidebarView.vue'
   }
 
   .sidebar-wrapper {
-    width: 55px;
+    min-width: 55px;
   }
 }
 

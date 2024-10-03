@@ -134,6 +134,7 @@ import UserSidebar from '@/components/UserSidebar.vue'
 .usersidebar-wrapper {
   min-width: 200px;
   display: flex;
+  justify-content: flex-end;
 }
 
 .structure {

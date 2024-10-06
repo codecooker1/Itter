@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,8 @@ SECRET_KEY = 'django-insecure-ptu@)z5n0esedd#h!(qh=*x%ymioeplim+=yr66#k=s#2cxko*
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+env = os.environ
 
 
 # Application definition
@@ -73,10 +76,21 @@ WSGI_APPLICATION = 'itter_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': f'{env["DB_NAME"]}',
+        'USER': f'{env["DB_USER"]}',
+        'PASSWORD': f'{env["DB_PASS"]}',
+        'HOST': f'{env["DB_HOST"]}',
+        'PORT': f'{env["DB_PORT"]}',
     }
 }
 

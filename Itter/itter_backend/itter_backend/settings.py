@@ -34,6 +34,7 @@ env = os.environ
 # Application definition
 
 INSTALLED_APPS = [
+    'itterapi.apps.ItterapiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

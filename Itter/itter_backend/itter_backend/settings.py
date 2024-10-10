@@ -26,6 +26,10 @@ SECRET_KEY = 'django-insecure-ptu@)z5n0esedd#h!(qh=*x%ymioeplim+=yr66#k=s#2cxko*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = ["http://localhost:9000"]  # We add your frontend URL here.
+CSRF_TRUSTED_ORIGINS = ['http://localhost:9000']  # We add your frontend URL here.
+
 ALLOWED_HOSTS = []
 
 env = os.environ
@@ -34,6 +38,7 @@ env = os.environ
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'itterapi.apps.ItterapiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

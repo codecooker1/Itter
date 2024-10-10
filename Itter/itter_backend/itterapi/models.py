@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import uuid
 
 # Create your models here.
@@ -14,6 +15,13 @@ class Post(models.Model):
     content = models.TextField(max_length=250)
     media_url = models.URLField()
     created_at = models.DateTimeField()
+    
+    def __str__(self):
+        return (
+            f"{self.user_id} "
+            f"({self.created_at:%Y-%m-%d %H:%M}): "
+            f"{self.content[:30]}..."
+        )
 
 # class Repost(models.Model):
 #     pass

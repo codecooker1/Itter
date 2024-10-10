@@ -13,6 +13,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.45.3",
     "flowbite": "^2.5.1",
+    "pinia": "^2.2.4",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },

@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import NotFound from '@/views/NotFound.vue'
-import RtView from '@/components/rtView.vue'
-import AboutView from '@/views/AboutView.vue'
+const HomeView = () => import('@/views/HomeView.vue')
+const NotFound = () => import('@/views/NotFound.vue')
+const RtView = () => import('@/components/rtView.vue')
+const AboutView = () => import('@/views/AboutView.vue')
+const SignupView = () => import('@/views/SignupView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      name: 'signup',
+      component: SignupView,
+    },
     {
       path: '/Home',
       name: 'home',
@@ -16,12 +22,12 @@ const router = createRouter({
     {
       path: '/Explore',
       name: 'explore',
-      component: HomeView
+      component: HomeView,
     },
     {
       path: '/Notifications',
       name: 'notifications',
-      component: HomeView
+      component: HomeView,
     },
     {
       path: '/Profile',

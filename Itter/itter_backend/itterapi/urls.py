@@ -19,5 +19,11 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('', views.default_index),
+    path('', views.default_index, name='index'),
+    path('create/post', views.create_post, name='create_post'),
+    path('set-csrf-token', views.set_csrf_token, name='set_csrf_token'),
+    path('login', views.login_view, name='login'),
+    path('logout', views.logout_view, name='logout'),
+    path('user', views.user, name='user'),
+    path('register', views.register, name='register'),
 ]

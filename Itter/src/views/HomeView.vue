@@ -123,6 +123,7 @@
 import SinglePost from '@/components/SinglePost.vue'
 import SidebarView from '@/components/SidebarView.vue'
 import UserSidebar from '@/components/UserSidebar.vue'
+
 </script>
 
 <style>
@@ -142,7 +143,7 @@ import UserSidebar from '@/components/UserSidebar.vue'
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap:20px;
+  gap: 20px;
 }
 
 .feedarea {

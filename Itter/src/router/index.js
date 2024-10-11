@@ -4,17 +4,23 @@ const NotFound = () => import('@/views/NotFound.vue')
 const RtView = () => import('@/components/rtView.vue')
 const AboutView = () => import('@/views/AboutView.vue')
 const SignupView = () => import('@/views/SignupView.vue')
+const SigninView = () => import('@/views/SigninView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/Signup',
       name: 'signup',
       component: SignupView,
     },
     {
-      path: '/Home',
+      path: '/Signin',
+      name: 'signin',
+      component: SigninView,
+    },
+    {
+      path: '/',
       name: 'home',
       component: HomeView
     },

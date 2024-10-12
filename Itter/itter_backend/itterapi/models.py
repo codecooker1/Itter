@@ -10,7 +10,7 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=250)
     profile_image = models.ImageField(default='default.png', upload_to='profile_pics')
     created_at = models.DateTimeField(auto_now_add=True)
-    
+     
     def __str__(self):
         return f'{self.user.username}\'s Profile'
     

@@ -60,16 +60,13 @@ import IconBell from './icons/IconBell.vue'
 
 <style lang="css">
 aside.sidebar {
-  grid-area: sidebar;
-}
-.sidebar {
   display: flex;
   gap: 20px;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
-  /*padding: 20px;*/
-  height: 89vh;
+  align-items: center;
+  padding: 20px;
+  /*height: 89vh;*/
 }
 .sidebar li {
   font-weight: bold;
@@ -77,9 +74,10 @@ aside.sidebar {
 .sidebar ul {
   list-style-type: none;
 }
-/*
+
 .items {
   margin: 15px;
   padding: 25px;
-}*/
+  position: fixed;
+}
 </style>

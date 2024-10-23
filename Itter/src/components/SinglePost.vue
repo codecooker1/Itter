@@ -1,7 +1,12 @@
 <template>
   <article>
     <div class="poster-info">
-      <IconIncognito size="40px" />
+      <div class="usericon">
+        <IconIncognito size="40px" />
+      </div>
+      <div class="accountame">
+        <span></span>
+      </div>
     </div>
     <div class="main-post">
       <slot>

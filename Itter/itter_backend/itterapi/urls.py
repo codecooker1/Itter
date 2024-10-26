@@ -26,4 +26,5 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
     path('user', views.user, name='user'),
     path('register', views.register, name='register'),
+    path('gettestimg', views.getSampleIcon, name = 'testimg'),
 ]

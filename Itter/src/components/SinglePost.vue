@@ -1,7 +1,11 @@
 <template>
   <article>
     <div class="poster-info">
-      <IconIncognito size="40px" />
+      <ProfileIcon :url="getPostContent"/>
+      <div class="info">
+        <p>name</p>
+        <p class="handle">@handle</p>
+      </div>
     </div>
     <div class="main-post">
       <slot>
@@ -30,10 +34,18 @@
 </template>
 
 <script setup>
-import IconIncognito from './icons/IconIncognito.vue'
-import LikeButton from './LikeButton.vue';
+import ProfileIcon from './icons/ProfileIcon.vue'
+import LikeButton from './LikeButton.vue'
 
-//const props = defineProps(["likeCount"]);
+//const props = defineProps(["postUrl"]);
+
+function getPostContent() {
+  let url = null
+  fetch('http://localhost:8000/api/gettestimg').
+    then(res => res.json).
+    then(data => url = data.image_url)
+  return url
+}
 
 </script>
 
@@ -61,6 +73,19 @@ article {
   flex-wrap: nowrap;
   height: 42px;
   width: 42px;
+}
+
+.info {
+  display: inline-flex;
+  line-height: 1em;
+  color: #fff;
+  flex-direction: column;
+  align-items: space-around;
+}
+
+.info .handle {
+  color: #b5bbc4;
+  font-size: .9em;
 }
 
 .action-bar {

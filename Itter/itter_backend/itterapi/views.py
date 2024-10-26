@@ -5,8 +5,13 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
+from supabase import create_client
 from .models import User, Post
+import os
 
+url = os.environ["SUPABASE_URL"]
+key = os.environ["SUPABASE_KEY"]
+supabase = create_client(url, key)
 
 @ensure_csrf_cookie
 @require_http_methods(['GET'])
@@ -74,3 +79,15 @@ def register(request):
     else:
         errors = form.errors.as_json()
         return JsonResponse({'error': errors}, status=400)
+    
+def getSampleIcon(request):
+    url = supabase.storage.from_('profilepics').get_public_url('1.jpeg')
+    # ,
+    # {
+    #     'transform': {
+    #     'width': 500,
+    #     'height': 500,
+    #     },
+    # })
+    
+    return JsonResponse({'image_url': url})

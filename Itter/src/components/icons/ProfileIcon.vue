@@ -1,5 +1,5 @@
 <template>
-        <img :src=url alt="profile_pic">
+        <img :src="props.picUrl" alt="profile_pic">
 </template>
 
 <script setup>
@@ -7,7 +7,7 @@
 
 // const url = ref('https://jzydvbxwyynlezjnqbbd.supabase.co/storage/v1/object/public/profilepics/1%20(1).png')
 
-const props = defineProps()
+const props = defineProps(['picUrl'])
 
 </script>
 

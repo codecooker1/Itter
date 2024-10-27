@@ -87,6 +87,7 @@ def getSampleIcon(request):
     #     'transform': {
     #     'width': 500,
     #     'height': 500,
+    #     'resize': 'contain',
     #     },
     # })
     

@@ -6,12 +6,19 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from supabase import create_client
-from .models import User, Post
+from .models import UserProfile, Post, Like, Follow
+from .serializers import UserProfileSerializer
+from rest_framework import viewsets
 import os
 
 url = os.environ["SUPABASE_URL"]
 key = os.environ["SUPABASE_KEY"]
 supabase = create_client(url, key)
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    
+    serializer_class = UserProfileSerializer
 
 @ensure_csrf_cookie
 @require_http_methods(['GET'])

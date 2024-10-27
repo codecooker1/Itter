@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import rest_framework.urls
 from . import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+
+router.register(r'userprofile', views.UserProfileViewSet)
 
 urlpatterns = [
     path('', views.default_index, name='index'),
@@ -27,4 +33,6 @@ urlpatterns = [
     path('user', views.user, name='user'),
     path('register', views.register, name='register'),
     path('gettestimg', views.getSampleIcon, name = 'testimg'),
+    path('v0/auth', include('rest_framework.urls')),
+    path('v0/', include(router.urls)),
 ]

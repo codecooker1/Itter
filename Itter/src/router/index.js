@@ -5,6 +5,7 @@ const RtView = () => import('@/components/rtView.vue')
 const AboutView = () => import('@/views/AboutView.vue')
 const SignupView = () => import('@/views/SignupView.vue')
 const SigninView = () => import('@/views/SigninView.vue')
+const TestComponent = () => import('@/components/LoaderView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,12 +13,12 @@ const router = createRouter({
     {
       path: '/Signup',
       name: 'signup',
-      component: SignupView,
+      component: SignupView
     },
     {
       path: '/Signin',
       name: 'signin',
-      component: SigninView,
+      component: SigninView
     },
     {
       path: '/',
@@ -28,12 +29,12 @@ const router = createRouter({
     {
       path: '/Explore',
       name: 'explore',
-      component: HomeView,
+      component: HomeView
     },
     {
       path: '/Notifications',
       name: 'notifications',
-      component: HomeView,
+      component: HomeView
     },
     {
       path: '/Profile',
@@ -49,6 +50,11 @@ const router = createRouter({
       path: '/About',
       name: 'about',
       component: AboutView
+    },
+    {
+      path: '/test',
+      name: 'test-components',
+      component: TestComponent
     },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
   ]

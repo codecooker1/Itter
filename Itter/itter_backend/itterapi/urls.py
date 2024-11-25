@@ -33,6 +33,7 @@ urlpatterns = [
     path('user', views.user, name='user'),
     path('register', views.register, name='register'),
     path('gettestimg', views.getSampleIcon, name = 'testimg'),
+    path('gettestname/<int:user_id>', views.getNameHandle, name = 'testname'),
     path('v0/auth', include('rest_framework.urls')),
     path('v0/', include(router.urls)),
 ]

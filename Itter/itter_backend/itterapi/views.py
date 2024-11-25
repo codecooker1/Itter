@@ -6,10 +6,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from supabase import create_client
-from .models import UserProfile, Post, Like, Follow
+from .models import UserProfile, Post, Like, Follow, User
 from .serializers import UserProfileSerializer
 from rest_framework import viewsets
 import os
+# from . import forms
 
 url = os.environ["SUPABASE_URL"]
 key = os.environ["SUPABASE_KEY"]
@@ -17,7 +18,7 @@ supabase = create_client(url, key)
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
-    
+
     serializer_class = UserProfileSerializer
 
 @ensure_csrf_cookie
@@ -59,7 +60,7 @@ def login_view(request):
     return JsonResponse(
         {'success': False, 'message': 'Invalid credentials'}, status=401
     )
-    
+
 def logout_view(request):
     logout(request)
     return JsonResponse({'message': 'Logged out'})
@@ -86,7 +87,7 @@ def register(request):
     else:
         errors = form.errors.as_json()
         return JsonResponse({'error': errors}, status=400)
-    
+
 def getSampleIcon(request):
     url = supabase.storage.from_('profilepics').get_public_url('1.jpeg')
     # ,
@@ -97,5 +98,25 @@ def getSampleIcon(request):
     #     'resize': 'contain',
     #     },
     # })
-    
+
     return JsonResponse({'image_url': url})
+
+def getNameHandle(request, user_id):
+
+    try:
+        user = User.objects.get(pk=user_id)
+        user_profile = UserProfile.objects.get(user=user)
+
+        data = {
+            'first_name': user_profile.user.first_name,
+            'last_name': user_profile.user.last_name,
+            'username': user_profile.user.username,
+        }
+
+        return JsonResponse(data, status=200)
+
+
+    # except UserProfile.DoesNotExist:
+    #     return JsonResponse({'error': 'User profile not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

@@ -1,10 +1,10 @@
 <template>
   <article>
     <div class="poster-info">
-      <ProfileIcon :url="getPostContent"/>
+      <ProfileIcon :picUrl="profilePictureUrl" />
       <div class="info">
-        <p>name</p>
-        <p class="handle">@handle</p>
+        <p>{{ profile_name }}</p>
+        <p class="handle">@{{ profile_handle }}</p>
       </div>
     </div>
     <div class="main-post">
@@ -36,17 +36,45 @@
 <script setup>
 import ProfileIcon from './icons/ProfileIcon.vue'
 import LikeButton from './LikeButton.vue'
+import { ref, onMounted } from 'vue'
 
 //const props = defineProps(["postUrl"]);
 
-function getPostContent() {
+const profile_name = ref('default_name')
+const profile_handle = ref('default_handle')
+
+async function getPostContent() {
   let url = null
-  fetch('http://localhost:8000/api/gettestimg').
-    then(res => res.json).
-    then(data => url = data.image_url)
+  fetch('http://localhost:8000/api/gettestname/2')
+    .then((res) => res.json())
+    .then((data) => {
+      profile_name.value = data.first_name + ' ' + data.last_name
+      profile_handle.value = data.username
+    })
   return url
 }
 
+const profilePictureUrl = ref(null)
+
+async function getProfilePicture() {
+  try {
+    const response = await fetch('http://localhost:8000/api/gettestimg')
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    const data = await response.json()
+    profilePictureUrl.value = data.image_url
+  } catch (error) {
+    console.error('Error fetching profile picture:', error)
+    // Handle error appropriately, e.g., display a default image
+    profilePictureUrl.value = '/path/to/default/profile.jpg' // Replace with your default image path
+  }
+}
+
+onMounted(() => {
+  getProfilePicture()
+  getPostContent()
+})
 </script>
 
 <style scoped>
@@ -68,11 +96,9 @@ article {
 .poster-info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 10px;
   flex-wrap: nowrap;
-  height: 42px;
-  width: 42px;
 }
 
 .info {
@@ -85,7 +111,7 @@ article {
 
 .info .handle {
   color: #b5bbc4;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
 .action-bar {

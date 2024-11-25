@@ -1,27 +1,60 @@
 <template>
-  <div>
-    <h2>Register</h2>
-    <form @submit.prevent="register" >
-      <div>
-        <label for="email">Email:</label>
-        <input v-model="email" id="email" type="email" required>
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input v-model="password" id="password" type="password" required>
-      </div>
-      <button type="submit">Register</button>
-    </form>
-    <p v-if="error">{{ error }}</p>
-    <p v-if="success">{{ success }}</p>
+  <div class="form-holder">
+    <div class="form-box">
+      <span class="title">Register</span>
+      <form @submit.prevent="register" class="form">
+        <div class="textInputWrapper">
+          <input v-model="email" placeholder="E-mail" type="email" id="email" class="textInput" required>
+        </div>
+        <div class="textInputWrapper">
+          <input v-model="password" placeholder="Password" id="password" type="password" class="textInput" required>
+        </div>
+        <button type="submit">Register</button>
+      </form>
+      <p v-if="error">{{ error }}</p>
+      <p v-if="success">{{ success }}</p>
+    </div>
   </div>
 </template>
 
 <style>
-/* From Uiverse.io by WhiteNervosa */ 
+.form-holder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #00000011;
+}
+
+.form-box {
+  height: 100vh;
+  max-width: 600px;
+  
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  background-color: var(--accent-color);
+  border-radius: 24px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+/* From Uiverse.io by WhiteNervosa */
 .textInputWrapper {
   position: relative;
-  width: 180px;
+  width: 100%;
+  /* 180px;*/
+  min-width: 180px;
   margin: 12px 5px;
   --accent-color: #a3e583;
 }
@@ -110,7 +143,6 @@
 .textInputWrapper:focus-within .textInput::placeholder {
   opacity: 0;
 }
-
 </style>
 
 <script>
@@ -130,10 +162,10 @@ export default {
       try {
         const response = await fetch('http://localhost:8000/api/register', {
           method: 'POST',
-           headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRFToken()
-                },
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+          },
           body: JSON.stringify({
             email: this.email,
             password: this.password
@@ -156,6 +188,3 @@ export default {
   }
 }
 </script>
-
-
-

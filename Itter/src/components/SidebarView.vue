@@ -61,14 +61,24 @@ import IconBell from './icons/IconBell.vue'
 </template>
 
 <style lang="css">
+<<<<<<< HEAD
 .sidebar {
+=======
+aside.sidebar {
+>>>>>>> 3111b4cc4c8f8dfb5a7ef557901ba764e80708cd
   display: flex;
   gap: 20px;
   flex-direction: column;
   justify-content: flex-start;
+<<<<<<< HEAD
   align-items: flex-start;
   position: fixed;
   width: inherit;
+=======
+  align-items: center;
+  padding: 20px;
+  /*height: 89vh;*/
+>>>>>>> 3111b4cc4c8f8dfb5a7ef557901ba764e80708cd
 }
 
 .flex-spacer{
@@ -88,4 +98,13 @@ import IconBell from './icons/IconBell.vue'
 .sidebar ul {
   list-style-type: none;
 }
+<<<<<<< HEAD
+=======
+
+.items {
+  margin: 15px;
+  padding: 25px;
+  position: fixed;
+}
+>>>>>>> 3111b4cc4c8f8dfb5a7ef557901ba764e80708cd
 </style>

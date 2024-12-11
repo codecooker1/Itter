@@ -1,10 +1,11 @@
 <template>
   <article>
     <div class="poster-info">
-      <ProfileIcon :picUrl="profilePictureUrl" />
-      <div class="info">
-        <p>{{ profile_name }}</p>
-        <p class="handle">@{{ profile_handle }}</p>
+      <div class="usericon">
+        <IconIncognito size="40px" />
+      </div>
+      <div class="accountame">
+        <span></span>
       </div>
     </div>
     <div class="main-post">

@@ -4,10 +4,24 @@
       <span class="title">Register</span>
       <form @submit.prevent="register" class="form">
         <div class="textInputWrapper">
-          <input v-model="email" placeholder="E-mail" type="email" id="email" class="textInput" required>
+          <label for="email">E-mail</label>
+          <input v-model="email" placeholder="E-mail" type="email" id="email" name="email" class="textInput" required>
         </div>
         <div class="textInputWrapper">
-          <input v-model="password" placeholder="Password" id="password" type="password" class="textInput" required>
+          <label for="password">Password</label>
+          <input v-model="password" placeholder="Password" id="password" type="password" name="password" class="textInput" required>
+        </div>
+        <div class="textInputWrapper">
+          <label for="bio">Bio</label>
+          <input v-model="bio" placeholder="Tell about yourself" id="bio" type="text" name="bio" class="textInput" required>
+        </div>
+        <div class="textInputWrapper">
+          <label for="username">Username</label>
+          <input v-model="username" placeholder="Username" id="username" type="text" name="username" class="textInput" required>
+        </div>
+        <div class="textInputWrapper">
+          <label for="pi">Profile Image</label>
+          <input v-model="profile_image" placeholder="profile_image" id="pi" type="url" name="profile_image" class="textInput" required>
         </div>
         <button type="submit">Register</button>
       </form>
@@ -151,8 +165,11 @@ import { getCSRFToken } from '../store/auth'
 export default {
   data() {
     return {
+      username: '',
       email: '',
       password: '',
+      bio: '',
+      profile_image: '',
       error: '',
       success: ''
     }
@@ -160,7 +177,7 @@ export default {
   methods: {
     async register() {
       try {
-        const response = await fetch('http://localhost:8000/api/register', {
+        const response = await fetch('http://localhost:8000/api/create-user/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -168,7 +185,10 @@ export default {
           },
           body: JSON.stringify({
             email: this.email,
-            password: this.password
+            password: this.password,
+            bio: this.bio,
+            username: this.username,
+            profile_image: this.profile_image
           }),
           credentials: 'include'
         })

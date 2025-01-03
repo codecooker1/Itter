@@ -4,10 +4,11 @@ import json
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from supabase import create_client
 from .models import UserProfile, Post, Like, Follow, User
-from .serializers import UserProfileSerializer
+from .forms import UserProfileForm
+from .serializers import UserProfileSerializer, PostSerializer, LikeSerializer, FollowSerializer
 from rest_framework import viewsets
 import os
 # from . import forms
@@ -32,6 +33,72 @@ def set_csrf_token(request):
 # Create your views here.
 def default_index(request):
     return JsonResponse({"message":"Hey site is working, maybe"})
+
+def test_form(request):
+    # if this is a POST request we need to process the form data
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = UserProfileForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            
+            return HttpResponseRedirect("/thanks/")
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = UserProfileForm()
+
+    return render(request, "form.html", {"form": form})
+
+@csrf_exempt
+def create_user_and_profile(request):
+    """
+    Creates a new user and profile from JSON data in the request body.
+
+    Example of request body:
+    {
+        "username": "johnDoe",
+        "email": "john@example.com",
+        "password": "mySecretPassword",
+        "bio": "I am a software engineer.",
+        "profile_image": "https://example.com/johndoe.jpg"
+    }
+
+    Returns a JSON response with a success message and HTTP status 201 if the user and profile are created successfully.
+    Returns a JSON response with form errors and HTTP status 400 if the request body contains invalid data.
+    Returns a JSON response with an error message and HTTP status 400 if the request body is not valid JSON.
+    Returns a JSON response with an error message and HTTP status 405 if the request method is not POST.
+    """
+    if request.method == 'POST':
+        try:
+            # Parse JSON data
+            data = json.loads(request.body)
+
+            # Initialize forms with JSON data
+            user_form = UserProfileForm({
+                'username': data.get('username'),
+                'email': data.get('email'),
+                'password': data.get('password'),
+                'bio': data.get('bio'),
+                'profile_image': data.get('profile_image'),
+            })
+
+            # Validate forms
+            if user_form.is_valid():
+                # Save UserProfile object
+                profile = user_form.save()
+                profile.save()
+
+                return JsonResponse({'message': 'User and profile created successfully!'}, status=201)
+
+            # Handle form errors
+            errors = {**user_form.errors}
+            return JsonResponse({'errors': errors}, status=400)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=401)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
 def create_post(request):
@@ -120,3 +187,13 @@ def getNameHandle(request, user_id):
     #     return JsonResponse({'error': 'User profile not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserProfileSerializer
+    basename = 'user' # Important for reverse lookups
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    basename = 'post' # Important for reverse lookups

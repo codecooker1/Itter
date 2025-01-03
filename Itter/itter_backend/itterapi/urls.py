@@ -36,4 +36,6 @@ urlpatterns = [
     path('gettestname/<int:user_id>', views.getNameHandle, name = 'testname'),
     path('v0/auth', include('rest_framework.urls')),
     path('v0/', include(router.urls)),
+    path('create-user/', views.create_user_and_profile, name='create_user_and_profile'),
+    path('tt/', views.test_form, name='test_form'),
 ]

@@ -39,6 +39,7 @@ env = os.environ
 
 INSTALLED_APPS = [
     'corsheaders',
+    # 'accounts',
     'itterapi.apps.ItterapiConfig',
     'django.contrib.admin',
     'django.contrib.auth',

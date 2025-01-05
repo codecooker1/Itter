@@ -9,21 +9,27 @@
         </div>
         <div class="textInputWrapper">
           <label for="password">Password</label>
-          <input v-model="password" placeholder="Password" id="password" type="password" name="password" class="textInput" required>
+          <input v-model="password" placeholder="Password" id="password" type="password" name="password"
+            class="textInput" required>
         </div>
         <div class="textInputWrapper">
           <label for="bio">Bio</label>
-          <input v-model="bio" placeholder="Tell about yourself" id="bio" type="text" name="bio" class="textInput" required>
+          <input v-model="bio" placeholder="Tell about yourself" id="bio" type="text" name="bio" class="textInput"
+            required>
         </div>
         <div class="textInputWrapper">
           <label for="username">Username</label>
-          <input v-model="username" placeholder="Username" id="username" type="text" name="username" class="textInput" required>
+          <input v-model="username" placeholder="Username" id="username" type="text" name="username" class="textInput"
+            required>
         </div>
         <div class="textInputWrapper">
           <label for="pi">Profile Image</label>
-          <input v-model="profile_image" placeholder="profile_image" id="pi" type="url" name="profile_image" class="textInput" required>
+          <input style="padding: 0px;" @change="handleFileUpload($event)" placeholder="profile_image" id="pi" type="file" name="profile_image" accept="image/png, image/jpeg, image/jpg, image/webp"
+            class="textInput" required capture>
+            <!-- <img v-if="this.imageUrl" :src="this.imageUrl" alt="Selected Image" style="max-width: 200px; max-height: 200px; margin-top: 10px;"> -->
+          <p>{{ uploadError }}</p>
         </div>
-        <button type="submit">Register</button>
+        <button class="sbutton" type="submit">Register</button>
       </form>
       <p v-if="error">{{ error }}</p>
       <p v-if="success">{{ success }}</p>
@@ -44,7 +50,7 @@
 .form-box {
   height: 100vh;
   max-width: 600px;
-  
+
 }
 
 .form {
@@ -62,6 +68,50 @@
   font-weight: bold;
   font-size: 1.6rem;
 }
+
+/* From Uiverse.io by Kabak */ 
+.sbutton {
+  height: 50px;
+  margin: 5px;
+  width: 120px;
+  background: #333;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: Consolas, Courier New, monospace;
+  border: solid #404c5d 1px;
+  font-size: 16px;
+  color: rgb(161, 161, 161);
+  -webkit-transition: 500ms;
+  transition: 500ms;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #2e2d2d, #212121);
+  -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+    inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+  box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+    inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+}
+
+.sbutton:hover {
+  -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 13px #545b78;
+  box-shadow: 1px 1px 13px #20232e, -1px -1px 13px #545b78;
+  color: #d6d6d6;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+}
+
+.sbutton:active {
+  -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+  box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+  color: #d6d6d6;
+  -webkit-transition: 100ms;
+  transition: 100ms;
+}
+
 
 /* From Uiverse.io by WhiteNervosa */
 .textInputWrapper {
@@ -160,7 +210,10 @@
 </style>
 
 <script>
-import { getCSRFToken } from '../store/auth'
+import { getCSRFToken, SetCsrfToken } from '../store/auth'
+import { createClient } from '@supabase/supabase-js'
+import { nanoid } from 'nanoid';
+
 
 export default {
   data() {
@@ -171,12 +224,36 @@ export default {
       bio: '',
       profile_image: '',
       error: '',
-      success: ''
+      success: '',
+      selectedFile: null,
+      supabase: null,
+      uploadError: '',
+      imageUrl: '',
     }
   },
+
+  mounted() {
+    this.supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY)
+    SetCsrfToken();
+  },
+
   methods: {
+    async uploadFile(file) {
+      const { data, error } = await this.supabase.storage.from('profilepics').upload('' + nanoid(), file)
+      if (error) {
+        console.error('Error uploading file:', error)
+      } else {
+        console.log('File uploaded successfully:', data)
+        this.profile_image =  await this.supabase.storage.from('profilepics').getPublicUrl(data.path).data.publicUrl;
+        console.log('Public URL:', this.profile_image)
+      }
+    },
     async register() {
       try {
+
+        await this.uploadFile(this.selectedFile);
+        console.log(getCSRFToken());
+
         const response = await fetch('http://localhost:8000/api/create-user/', {
           method: 'POST',
           headers: {
@@ -204,7 +281,25 @@ export default {
       } catch (err) {
         this.error = 'An error occurred during registration: ' + err
       }
-    }
-  }
+    },
+    handleFileUpload(event){
+      this.selectedFile = event.target.files[0];
+      this.uploadError = null;
+      this.uploadSuccess = null;
+
+      if (this.selectedFile) {
+        if (!this.selectedFile.type.startsWith('image/png') && !this.selectedFile.type.startsWith('image/jpeg') && !this.selectedFile.type.startsWith('image/jpg') && !this.selectedFile.type.startsWith('image/webp')) {
+          this.uploadError = 'Please select a PNG or JPEG image.';
+          this.selectedFile = null;
+          this.imageUrl = null;
+          return;
+        }
+        this.imageUrl = URL.createObjectURL(this.selectedFile);
+      } else {
+        this.imageUrl = null;
+      }
+console.log(this.imageUrl);
+    },
+  },
 }
 </script>

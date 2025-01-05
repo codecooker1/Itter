@@ -50,7 +50,7 @@ def test_form(request):
 
     return render(request, "form.html", {"form": form})
 
-@csrf_exempt
+@csrf_exempt  
 def create_user_and_profile(request):
     """
     Creates a new user and profile from JSON data in the request body.

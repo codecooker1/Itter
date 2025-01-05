@@ -131,3 +131,10 @@ export function getCSRFToken() {
   }
   return cookieValue
 }
+
+export async function SetCsrfToken() {
+  await fetch('http://localhost:8000/api/set-csrf-token', {
+    method: 'GET',
+    credentials: 'include'
+  })
+}

@@ -37,42 +37,28 @@
 import ProfileIcon from './icons/ProfileIcon.vue'
 import LikeButton from './LikeButton.vue'
 import { ref, onMounted } from 'vue'
-
-//const props = defineProps(["postUrl"]);
+import { useAuthStore } from '@/store/auth.js'
 
 const profile_name = ref('default_name')
 const profile_handle = ref('default_handle')
+const profilePictureUrl = ref('')
+
+const authstore = useAuthStore()
+
+const user = ref(null)
 
 async function getPostContent() {
-  let url = null
-  fetch('http://localhost:8000/api/gettestname/1014')
-    .then((res) => res.json())
-    .then((data) => {
-      profile_name.value = data.first_name + ' ' + data.last_name
-      profile_handle.value = data.username
-    })
-  return url
-}
+  user.value = authstore.user
 
-const profilePictureUrl = ref(null)
-
-async function getProfilePicture() {
-  try {
-    const response = await fetch('http://localhost:8000/api/gettestimg')
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    const data = await response.json()
-    profilePictureUrl.value = data.image_url
-  } catch (error) {
-    console.error('Error fetching profile picture:', error)
-    // Handle error appropriately, e.g., display a default image
-    profilePictureUrl.value = '/path/to/default/profile.jpg' // Replace with your default image path
+  if (user.value) {
+    profile_name.value = user.value.first_name + ' ' + user.value.last_name
+    profile_handle.value = user.value.username
+    profilePictureUrl.value = user.value.profile_image
   }
 }
 
 onMounted(() => {
-  getProfilePicture()
+  authstore.fetchUser()
   getPostContent()
 })
 </script>

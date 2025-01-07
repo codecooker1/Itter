@@ -34,22 +34,6 @@ def set_csrf_token(request):
 def default_index(request):
     return JsonResponse({"message":"Hey site is working, maybe"})
 
-def test_form(request):
-    # if this is a POST request we need to process the form data
-    if request.method == "POST":
-        # create a form instance and populate it with data from the request:
-        form = UserProfileForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            
-            return HttpResponseRedirect("/thanks/")
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = UserProfileForm()
-
-    return render(request, "form.html", {"form": form})
-
 @csrf_exempt  
 def create_user_and_profile(request):
     """
@@ -162,31 +146,6 @@ def user(request):
         {'message': 'Not logged in'}, status=401
     )
 
-
-@require_http_methods(['POST'])
-def register(request):
-    data = json.loads(request.body.decode('utf-8'))
-    form = CreateUserForm(data)
-    if form.is_valid():
-        form.save()
-        return JsonResponse({'success': 'User registered successfully'}, status=201)
-    else:
-        errors = form.errors.as_json()
-        return JsonResponse({'error': errors}, status=400)
-
-def getSampleIcon(request):
-    url = supabase.storage.from_('profilepics').get_public_url('1.jpeg')
-    # ,
-    # {
-    #     'transform': {
-    #     'width': 500,
-    #     'height': 500,
-    #     'resize': 'contain',
-    #     },
-    # })
-
-    return JsonResponse({'image_url': url})
-
 def getNameHandle(request, user_id):
 
     try:
@@ -201,9 +160,6 @@ def getNameHandle(request, user_id):
 
         return JsonResponse(data, status=200)
 
-
-    # except UserProfile.DoesNotExist:
-    #     return JsonResponse({'error': 'User profile not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 

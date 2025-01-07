@@ -194,8 +194,7 @@
 <script setup>
 
 import { ref, onMounted } from 'vue'
-import { getCSRFToken, useAuthStore } from '@/store/auth'
-import router from '@/router'
+import { useAuthStore } from '@/store/auth'
 
 
 const email = ref('')
@@ -206,37 +205,6 @@ const authStore = useAuthStore()
 
 onMounted(async () => {
   await authStore.fetchUser()
-  authStore.setCsrfToken()
 })
-
-// eslint-disable-next-line no-unused-vars
-const signin = async () => {
-  const csrfToken = await getCSRFToken()
-  console.log(csrfToken)
-  try {
-    const response = await fetch('http://localhost:8000/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': getCSRFToken()
-      },
-      body: JSON.stringify({ email: email.value, password: password.value })
-    })
-    const data = await response.json()
-    console.log(data)
-    if (data.success) {
-      // Login successful, redirect to dashboard or home page
-      router.push({ name: 'home' })
-      console.log('login success \n ' + data)
-    } else {
-      // Login failed, display error message
-      error.value = data.error
-      console.log(error.value)
-    }
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 
 </script>

@@ -5,11 +5,13 @@
       <form @submit.prevent="register" class="form">
         <div class="textInputWrapper">
           <label for="firstname">First Name</label>
-          <input v-model="firstname" placeholder="First Name" type="text" id="firstname" name="firstname" class="textInput" required>
+          <input v-model="firstname" placeholder="First Name" type="text" id="firstname" name="firstname"
+            class="textInput" required>
         </div>
         <div class="textInputWrapper">
           <label for="lastname">Last Name</label>
-          <input v-model="lastname" placeholder="Last name" type="text" id="lastname" name="lastname" class="textInput" required>
+          <input v-model="lastname" placeholder="Last name" type="text" id="lastname" name="lastname" class="textInput"
+            required>
         </div>
         <div class="textInputWrapper">
           <label for="username">Username</label>
@@ -32,9 +34,10 @@
         </div>
         <div class="textInputWrapper">
           <label for="pi">Profile Image</label>
-          <input style="padding: 0px;" @change="handleFileUpload($event)" placeholder="profile_image" id="pi" type="file" name="profile_image" accept="image/png, image/jpeg, image/jpg, image/webp"
-            class="textInput" required capture>
-            <!-- <img v-if="this.imageUrl" :src="this.imageUrl" alt="Selected Image" style="max-width: 200px; max-height: 200px; margin-top: 10px;"> -->
+          <input style="padding: 0px;" @change="handleFileUpload($event)" placeholder="profile_image" id="pi"
+            type="file" name="profile_image" accept="image/png, image/jpeg, image/jpg, image/webp" class="textInput"
+            required capture>
+          <!-- <img v-if="this.imageUrl" :src="this.imageUrl" alt="Selected Image" style="max-width: 200px; max-height: 200px; margin-top: 10px;"> -->
           <p>{{ uploadError }}</p>
         </div>
         <button class="sbutton" type="submit">Register</button>
@@ -77,7 +80,7 @@
   font-size: 1.6rem;
 }
 
-/* From Uiverse.io by Kabak */ 
+/* From Uiverse.io by Kabak */
 .sbutton {
   height: 50px;
   margin: 5px;
@@ -250,16 +253,32 @@ export default {
   },
 
   methods: {
+    /**
+     * Uploads a file to the Supabase storage and sets the profile_image
+     * to the public URL of the uploaded file.
+     * @param {File} file - The file to be uploaded
+     * @return {Promise<void>}
+     */
     async uploadFile(file) {
       const { data, error } = await this.supabase.storage.from('profilepics').upload('' + nanoid(), file)
       if (error) {
         console.error('Error uploading file:', error)
       } else {
         console.log('File uploaded successfully:', data)
-        this.profile_image =  await this.supabase.storage.from('profilepics').getPublicUrl(data.path).data.publicUrl;
+        this.profile_image = await this.supabase.storage.from('profilepics').getPublicUrl(data.path).data.publicUrl;
         console.log('Public URL:', this.profile_image)
       }
     },
+    /**
+     * Registers a new user.
+     *
+     * Submits a POST request to the create-user API endpoint with the
+     * registration data. If the response is successful, sets a success message
+     * and redirects to the Signin page after a brief delay. Otherwise, sets an
+     * error message.
+     *
+     * @return {Promise<void>}
+     */
     async register() {
       try {
 
@@ -296,7 +315,17 @@ export default {
         this.error = 'An error occurred during registration: ' + err
       }
     },
-    handleFileUpload(event){
+    /**
+     * Handles the file upload event from the file input field.
+     *
+     * Updates the selectedFile data property with the uploaded file and
+     * sets the imageUrl to the object URL of the file. If the file is not a
+     * PNG or JPEG image, sets an error message and resets the selectedFile
+     * and imageUrl properties.
+     *
+     * @param {Event} event - The event object from the file input field
+     */
+    handleFileUpload(event) {
       this.selectedFile = event.target.files[0];
       this.uploadError = null;
       this.uploadSuccess = null;
@@ -312,7 +341,7 @@ export default {
       } else {
         this.imageUrl = null;
       }
-console.log(this.imageUrl);
+      console.log(this.imageUrl);
     },
   },
 }

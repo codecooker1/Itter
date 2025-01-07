@@ -1,6 +1,16 @@
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
+
+/**
+ * Returns the initial state of the authentication store.
+ *
+ * The state is loaded from local storage if available; otherwise, it defaults to
+ * an unauthenticated state with a null user.
+ *
+ * @returns {Object} The initial state, with `user` set to null and `isAuthenticated` set to false if not found in local storage.
+ */
+
   state: () => {
     const storedState = localStorage.getItem('authState')
     return storedState
@@ -11,6 +21,12 @@ export const useAuthStore = defineStore('auth', {
         }
   },
   actions: {
+    /**
+     * Sets the CSRF token for the current session.
+     *
+     * This is called on every page load to ensure the CSRF token is always
+     * up-to-date.
+     */
     async setCsrfToken() {
       await fetch('http://localhost:8000/api/set-csrf-token', {
         method: 'GET',
@@ -42,6 +58,15 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    /**
+     * Logs out the user.
+     * This will make a POST request to /api/logout, which will delete the session
+     * cookie and log the user out on the backend.
+     * If the request fails, it will throw an Error.
+     * @param {import('vue-router').Router} [router] - The router to use for
+     * redirecting the user after a successful logout.
+     * @throws {Error} If the request fails.
+     */
     async logout(router = null) {
       try {
         const response = await fetch('http://localhost:8000/api/logout', {
@@ -65,6 +90,11 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    /**
+     * Fetches the user data from the server and updates the state.
+     * If the request fails, it sets the state to unauthenticated.
+     * @throws {Error} If the request fails.
+     */
     async fetchUser() {
       try {
         const response = await fetch('http://localhost:8000/api/user', {
@@ -90,14 +120,13 @@ export const useAuthStore = defineStore('auth', {
       this.saveState()
     },
 
+    /**
+     * Save the state to local storage.
+     *
+     * This is a simple way to persist the state when the user reloads the page.
+     * For a more robust solution, use pinia-persistent-state.
+     */
     saveState() {
-      /*
-            We save state to local storage to keep the
-            state when the user reloads the page.
-
-            This is a simple way to persist state. For a more robust solution,
-            use pinia-persistent-state.
-             */
       localStorage.setItem(
         'authState',
         JSON.stringify({
@@ -109,11 +138,14 @@ export const useAuthStore = defineStore('auth', {
   }
 })
 
+/**
+ * Gets the CSRF token from the cookie.
+ *
+ * This is necessary for CSRF protection in Django.
+ * @returns {string} The CSRF token.
+ * @throws {Error} If the CSRF cookie is missing.
+ */
 export function getCSRFToken() {
-  /*
-    We get the CSRF token from the cookie to include in our requests.
-    This is necessary for CSRF protection in Django.
-     */
   const name = 'csrftoken'
   let cookieValue = null
   if (document.cookie && document.cookie !== '') {

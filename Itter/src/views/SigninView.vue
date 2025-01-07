@@ -1,22 +1,20 @@
-
 <template>
-    <div class="form-holder">
-      <div class="form-box">
-        <span class="title">Register</span>
-        <form @submit.prevent="register" class="form">
-          <div class="textInputWrapper">
-            <label for="email">E-mail</label>
-            <input v-model="email" placeholder="E-mail" type="email" id="email" name="email" class="textInput" required>
-          </div>
-          <div class="textInputWrapper">
-            <label for="password">Password</label>
-            <input v-model="password" placeholder="Password" id="password" type="password" name="password"
-              class="textInput" required>
-          </div>
-          <button class="sbutton" type="submit">Login</button>
+  <div class="form-holder">
+    <div class="form-box">
+      <span class="title">Register</span>
+      <form @submit.prevent="signin" class="form">
+        <div class="textInputWrapper">
+          <label for="email">E-mail</label>
+          <input v-model="email" placeholder="E-mail" type="email" id="email" name="email" class="textInput" required>
+        </div>
+        <div class="textInputWrapper">
+          <label for="password">Password</label>
+          <input v-model="password" placeholder="Password" id="password" type="password" name="password"
+            class="textInput" required>
+        </div>
+        <button class="sbutton" type="submit">Login</button>
       </form>
       <p v-if="error">{{ error }}</p>
-      <p v-if="success">{{ success }}</p>
     </div>
   </div>
 </template>
@@ -53,7 +51,7 @@
   font-size: 1.6rem;
 }
 
-/* From Uiverse.io by Kabak */ 
+/* From Uiverse.io by Kabak */
 .sbutton {
   height: 50px;
   margin: 5px;
@@ -195,41 +193,49 @@
 
 <script setup>
 
-// eslint-disable-next-line no-unused-vars
 import { ref, onMounted } from 'vue'
-import { useAuthStore } from '../store/auth'
+import { getCSRFToken, useAuthStore, SetCsrfToken } from '@/store/auth'
+import router from '@/router'
 
 
+const email = ref('')
+const password = ref('')
+const error = ref('')
 
-    const username = ref('')
-    const password = ref('')
-    const error = ref('')
-    const { getCSRFToken } = useAuthStore()
+const authStore = useAuthStore()
 
-    // eslint-disable-next-line no-unused-vars
-    const signin = async () => {
-      const csrfToken = await getCSRFToken()
-      try {
-        const response = await fetch('http://localhost:8000/api/login/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken
-          },
-          body: JSON.stringify({ username: username.value, password: password.value })
-        })
-        const data = await response.json()
-        if (data.success) {
-          // Login successful, redirect to dashboard or home page
-          // this.$router.push({ name: 'home' })
-        } else {
-          // Login failed, display error message
-          error.value = data.error
-        }
-      } catch (error) {
-        console.error(error)
-      }
+onMounted(async () => {
+  await authStore.fetchUser()
+  SetCsrfToken()
+})
+
+const signin = async () => {
+  const csrfToken = await getCSRFToken()
+  console.log(csrfToken)
+  try {
+    const response = await fetch('http://localhost:8000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCSRFToken()
+      },
+      body: JSON.stringify({ email: email.value, password: password.value })
+    })
+    const data = await response.json()
+    console.log(data)
+    if (data.success) {
+      // Login successful, redirect to dashboard or home page
+      router.push({ name: 'home' })
+      console.log('login success \n ' + data)
+    } else {
+      // Login failed, display error message
+      error.value = data.error
+      console.log(error.value)
     }
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 
 </script>

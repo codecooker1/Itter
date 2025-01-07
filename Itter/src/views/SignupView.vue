@@ -210,7 +210,7 @@
 </style>
 
 <script>
-import { getCSRFToken, SetCsrfToken } from '../store/auth'
+import { getCSRFToken, SetCsrfToken } from '@/store/auth'
 import { createClient } from '@supabase/supabase-js'
 import { nanoid } from 'nanoid';
 

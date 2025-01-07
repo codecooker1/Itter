@@ -109,6 +109,7 @@ def create_post(request):
        return JsonResponse({'message': 'Invalid request method GET'})
 
 @require_http_methods(['POST'])
+@csrf_exempt
 def login_view(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
@@ -119,14 +120,24 @@ def login_view(request):
             {'success': False, 'message': 'Invalid JSON'}, status=400
         )
 
-    user = authenticate(request, username=email, password=password)
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return JsonResponse(
+            {'success': False, 'message': 'Invalid email'}, status=401
+        )
+
+    user = authenticate(request, username=user.username, password=password)
 
     if user:
         login(request, user)
+        print('login successful')
         return JsonResponse({'success': True})
-    return JsonResponse(
-        {'success': False, 'message': 'Invalid credentials'}, status=401
-    )
+    else:
+        print('login failed')
+        return JsonResponse(
+            {'success': False, 'message': 'Invalid credentials'}, status=401
+        )
 
 def logout_view(request):
     logout(request)

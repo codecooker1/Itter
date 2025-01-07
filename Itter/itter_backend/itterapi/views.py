@@ -76,6 +76,8 @@ def create_user_and_profile(request):
 
             # Initialize forms with JSON data
             user_form = UserProfileForm({
+                'firstname': data.get('firstname'),
+                'lastname': data.get('lastname'),
                 'username': data.get('username'),
                 'email': data.get('email'),
                 'password': data.get('password'),
@@ -148,7 +150,13 @@ def logout_view(request):
 def user(request):
     if request.user.is_authenticated:
         return JsonResponse(
-            {'username': request.user.username, 'email': request.user.email}
+            {
+                'username': request.user.username,
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name,
+                'profile_image': request.user.userprofile.profile_image,
+                'bio': request.user.userprofile.bio
+            }
         )
     return JsonResponse(
         {'message': 'Not logged in'}, status=401

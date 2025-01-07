@@ -2,7 +2,7 @@
   <div class="form-holder">
     <div class="form-box">
       <span class="title">Register</span>
-      <form @submit.prevent="signin" class="form">
+      <form @submit.prevent="authStore.login(email, password)" class="form">
         <div class="textInputWrapper">
           <label for="email">E-mail</label>
           <input v-model="email" placeholder="E-mail" type="email" id="email" name="email" class="textInput" required>
@@ -194,7 +194,7 @@
 <script setup>
 
 import { ref, onMounted } from 'vue'
-import { getCSRFToken, useAuthStore, SetCsrfToken } from '@/store/auth'
+import { getCSRFToken, useAuthStore } from '@/store/auth'
 import router from '@/router'
 
 
@@ -206,9 +206,10 @@ const authStore = useAuthStore()
 
 onMounted(async () => {
   await authStore.fetchUser()
-  SetCsrfToken()
+  authStore.setCsrfToken()
 })
 
+// eslint-disable-next-line no-unused-vars
 const signin = async () => {
   const csrfToken = await getCSRFToken()
   console.log(csrfToken)

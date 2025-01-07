@@ -45,7 +45,7 @@ const profile_handle = ref('default_handle')
 
 async function getPostContent() {
   let url = null
-  fetch('http://localhost:8000/api/gettestname/2')
+  fetch('http://localhost:8000/api/gettestname/1014')
     .then((res) => res.json())
     .then((data) => {
       profile_name.value = data.first_name + ' ' + data.last_name

@@ -4,6 +4,19 @@
       <span class="title">Register</span>
       <form @submit.prevent="register" class="form">
         <div class="textInputWrapper">
+          <label for="firstname">First Name</label>
+          <input v-model="firstname" placeholder="First Name" type="text" id="firstname" name="firstname" class="textInput" required>
+        </div>
+        <div class="textInputWrapper">
+          <label for="lastname">Last Name</label>
+          <input v-model="lastname" placeholder="Last name" type="text" id="lastname" name="lastname" class="textInput" required>
+        </div>
+        <div class="textInputWrapper">
+          <label for="username">Username</label>
+          <input v-model="username" placeholder="Username" id="username" type="text" name="username" class="textInput"
+            required>
+        </div>
+        <div class="textInputWrapper">
           <label for="email">E-mail</label>
           <input v-model="email" placeholder="E-mail" type="email" id="email" name="email" class="textInput" required>
         </div>
@@ -13,13 +26,8 @@
             class="textInput" required>
         </div>
         <div class="textInputWrapper">
-          <label for="bio">Bio</label>
-          <input v-model="bio" placeholder="Tell about yourself" id="bio" type="text" name="bio" class="textInput"
-            required>
-        </div>
-        <div class="textInputWrapper">
-          <label for="username">Username</label>
-          <input v-model="username" placeholder="Username" id="username" type="text" name="username" class="textInput"
+          <label for="bio">Tell something about yourself</label>
+          <input v-model="bio" placeholder="Tell about yourself" id="bio" type="textbox" name="bio" class="textInput"
             required>
         </div>
         <div class="textInputWrapper">
@@ -43,8 +51,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100vh;
-  background-color: #00000011;
+  height: 100%;
+  /* background-color: #00000011; */
 }
 
 .form-box {
@@ -119,7 +127,7 @@
   width: 100%;
   /* 180px;*/
   min-width: 180px;
-  margin: 12px 5px;
+  margin: 6px 5px;
   --accent-color: #a3e583;
 }
 
@@ -210,7 +218,7 @@
 </style>
 
 <script>
-import { getCSRFToken, SetCsrfToken } from '@/store/auth'
+import { getCSRFToken, useAuthStore } from '@/store/auth'
 import { createClient } from '@supabase/supabase-js'
 import { nanoid } from 'nanoid';
 
@@ -218,6 +226,8 @@ import { nanoid } from 'nanoid';
 export default {
   data() {
     return {
+      firstname: '',
+      lastname: '',
       username: '',
       email: '',
       password: '',
@@ -229,12 +239,14 @@ export default {
       supabase: null,
       uploadError: '',
       imageUrl: '',
+      useAuthStore: '',
     }
   },
 
   mounted() {
     this.supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY)
-    SetCsrfToken();
+    this.authStore = useAuthStore()
+    this.authStore.setCsrfToken()
   },
 
   methods: {
@@ -261,6 +273,8 @@ export default {
             'X-CSRFToken': getCSRFToken()
           },
           body: JSON.stringify({
+            firstname: this.firstname,
+            lastname: this.lastname,
             email: this.email,
             password: this.password,
             bio: this.bio,

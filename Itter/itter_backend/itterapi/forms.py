@@ -7,6 +7,8 @@ class UserProfileForm(forms.ModelForm):
     # Fields for User Model
     username = forms.CharField()
     email = forms.EmailField()
+    firstname = forms.CharField()
+    lastname = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
     
     class Meta:
@@ -18,6 +20,8 @@ class UserProfileForm(forms.ModelForm):
         if self.instance and hasattr(self.instance, 'user'):
             self.fields['username'].initial = self.instance.user.username
             self.fields['email'].initial = self.instance.user.email
+            self.fields['firstname'].initial = self.instance.user.first_name
+            self.fields['lastname'].initial = self.instance.user.last_name
         
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -35,13 +39,17 @@ class UserProfileForm(forms.ModelForm):
             user = self.instance.user
             user.username = self.cleaned_data['username']
             user.email = self.cleaned_data['email']
-            user.set_password(self.cleaned_data['password'])
+            user.first_name = self.cleaned_data['firstname']
+            user.last_name = self.cleaned_data['lastname']
         else:
             user = User.objects.create_user(
                 username=self.cleaned_data['username'],
                 email=self.cleaned_data['email'],
+                first_name=self.cleaned_data['firstname'],
+                last_name=self.cleaned_data['lastname'],
             )
-            user.set_password(self.cleaned_data['password'])
+        
+        user.set_password(self.cleaned_data['password'])
         profile.created_at = timezone.now()
         user.save()
         profile.user = user

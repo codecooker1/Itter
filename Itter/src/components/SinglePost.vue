@@ -36,7 +36,7 @@
 <script setup>
 import ProfileIcon from './icons/ProfileIcon.vue'
 import LikeButton from './LikeButton.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onActivated, onMounted } from 'vue'
 import { useAuthStore } from '@/store/auth.js'
 
 const profile_name = ref('default_name')
@@ -57,8 +57,12 @@ async function getPostContent() {
   }
 }
 
-onMounted(() => {
-  authstore.fetchUser()
+onMounted(async () => {
+  getPostContent()
+})
+
+onActivated(() => {
+  console.log("activated")
   getPostContent()
 })
 </script>

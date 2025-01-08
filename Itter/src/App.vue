@@ -7,7 +7,7 @@
 <script setup>
 //import NavbarView from './components/NavbarView.vue'
 
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, onBeforeMount, watchEffect } from 'vue'
 import { useAuthStore } from '@/store/auth.js'
 import { useRouter } from 'vue-router'
 import LoaderView from '@/components/LoaderView.vue'
@@ -25,8 +25,10 @@ const logout = async () => {
   }
 }
 
-onMounted(async () => {
+onBeforeMount(async () => {
+  authStore.setCsrfToken()
   await authStore.fetchUser()
+  console.log('done')
 })
 
 // Watch for route changes and set loading state

@@ -5,7 +5,7 @@ const RtView = () => import('@/components/rtView.vue')
 const AboutView = () => import('@/views/AboutView.vue')
 const SignupView = () => import('@/views/SignupView.vue')
 const SigninView = () => import('@/views/SigninView.vue')
-const TestComponent = () => import('@/components/LoaderView.vue')
+const TestComponent = () => import('@/components/CreatePost.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

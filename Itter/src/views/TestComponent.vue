@@ -1,12 +1,8 @@
 <template>
-    <LoaderView />
+  <LoaderView />
 </template>
 
 <script>
-import{ ref } from 'vue'
+import { ref } from 'vue'
 // import LoaderView from '@/components/LoaderView.vue';
-
-
-
-
 </script>

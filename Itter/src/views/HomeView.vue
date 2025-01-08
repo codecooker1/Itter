@@ -6,11 +6,17 @@
     <main class="feedarea">
       <div class="h-2"></div>
       <SinglePost> </SinglePost>
-      <SinglePost>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias eos adipisci nisi quos
-        sint. Sunt eum suscipit corrupti dolores maiores?</SinglePost>
-      <SinglePost>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem, maxime.</SinglePost>
+      <SinglePost
+        >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias eos adipisci nisi quos
+        sint. Sunt eum suscipit corrupti dolores maiores?</SinglePost
+      >
+      <SinglePost
+        >Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem, maxime.</SinglePost
+      >
       <SinglePost>Lorem ipsum dolor sit amet.</SinglePost>
-      <SinglePost>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas dolor hic aut.</SinglePost>
+      <SinglePost
+        >Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas dolor hic aut.</SinglePost
+      >
       <SinglePost>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus autem nihil sunt,
         consequatur fugit soluta asperiores quo accusamus recusandae commodi quod delectus harum,
@@ -123,7 +129,6 @@
 import SinglePost from '@/components/SinglePost.vue'
 import SidebarView from '@/components/SidebarView.vue'
 import UserSidebar from '@/components/UserSidebar.vue'
-
 </script>
 
 <style>

@@ -1,17 +1,14 @@
 import { defineStore } from 'pinia'
 
-
-
 export const useAuthStore = defineStore('auth', {
-
-/**
- * Returns the initial state of the authentication store.
- *
- * The state is loaded from local storage if available; otherwise, it defaults to
- * an unauthenticated state with a null user.
- *
- * @returns {Object} The initial state, with `user` set to null and `isAuthenticated` set to false if not found in local storage.
- */
+  /**
+   * Returns the initial state of the authentication store.
+   *
+   * The state is loaded from local storage if available; otherwise, it defaults to
+   * an unauthenticated state with a null user.
+   *
+   * @returns {Object} The initial state, with `user` set to null and `isAuthenticated` set to false if not found in local storage.
+   */
 
   state: () => {
     const storedState = localStorage.getItem('authState')

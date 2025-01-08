@@ -8,15 +8,38 @@
           <form @submit.prevent="createPost" class="form">
             <div class="textInputWrapper">
               <label for="title">Title</label>
-              <input v-model="title" placeholder="Enter title" type="text" id="title" name="title" class="textInput" required>
+              <input
+                v-model="title"
+                placeholder="Enter title"
+                type="text"
+                id="title"
+                name="title"
+                class="textInput"
+                required
+              />
             </div>
             <div class="textInputWrapper">
               <label for="content">Content</label>
-              <textarea v-model="content" placeholder="Enter content" id="content" name="content" class="textInput" required></textarea>
+              <textarea
+                v-model="content"
+                placeholder="Enter content"
+                id="content"
+                name="content"
+                class="textInput"
+                required
+              ></textarea>
             </div>
             <div class="textInputWrapper">
               <label for="tags">Tags</label>
-              <input v-model="tags" placeholder="Enter tags (comma separated)" type="text" id="tags" name="tags" class="textInput" required>
+              <input
+                v-model="tags"
+                placeholder="Enter tags (comma separated)"
+                type="text"
+                id="tags"
+                name="tags"
+                class="textInput"
+                required
+              />
             </div>
             <button class="sbutton" type="submit">Create Post</button>
           </form>
@@ -130,14 +153,14 @@ export default {
 
 .textInput:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #4caf50;
 }
 
 .sbutton {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: #fff;
   cursor: pointer;
 }

@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-import viteCompression from 'vite-plugin-compression';
+import viteCompression from 'vite-plugin-compression2';
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -7,7 +7,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [
     vue(),
-    viteCompression({algorithm: 'gzip', verbose: true, threshold: 1501, ext: '.gz'}),
+    viteCompression({algorithm: 'gzip', verbose: true, threshold: 1501, ext: '.gz', deleteOriginFile: true}),
   ],
   resolve: {
     alias: {

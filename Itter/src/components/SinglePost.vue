@@ -62,7 +62,7 @@ onMounted(async () => {
 })
 
 onActivated(() => {
-  console.log("activated")
+  console.log('activated')
   getPostContent()
 })
 </script>

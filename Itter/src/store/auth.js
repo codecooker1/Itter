@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 
+
+
 export const useAuthStore = defineStore('auth', {
 
 /**
@@ -81,7 +83,7 @@ export const useAuthStore = defineStore('auth', {
           this.isAuthenticated = false
           this.saveState()
           if (router) {
-            await router.push({ name: 'login' })
+            await router.push({ name: 'signin' })
           }
         }
       } catch (error) {

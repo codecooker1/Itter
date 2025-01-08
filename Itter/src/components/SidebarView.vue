@@ -6,8 +6,18 @@ import IconHome from './icons/IconHome.vue'
 import IconCheck from './icons/IconCheck.vue'
 import IconBell from './icons/IconBell.vue'
 import { useAuthStore } from "@/store/auth.js"
+import { useRouter } from 'vue-router'
 
 const authStore = useAuthStore()
+const router = useRouter()
+
+const logout = async () => {
+  try {
+    await authStore.logout(router)
+  } catch (error) {
+    console.error(error)
+  }
+}
 </script>
 
 <template>
@@ -54,7 +64,7 @@ const authStore = useAuthStore()
                 <IconCheck />
               </template>
             </SidebarButton>
-            <SidebarButton @click="authStore.logout">
+            <SidebarButton link="" @click="logout">
               Logout
               <template #icon>
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

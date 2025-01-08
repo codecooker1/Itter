@@ -2,7 +2,7 @@
   <div class="form-holder">
     <div class="form-box">
       <span class="title">Register</span>
-      <form @submit.prevent="authStore.login(email, password)" class="form">
+      <form @submit.prevent="authStore.login(email, password, router)" class="form">
         <div class="textInputWrapper">
           <label for="email">E-mail</label>
           <input v-model="email" placeholder="E-mail" type="email" id="email" name="email" class="textInput" required>
@@ -195,13 +195,14 @@
 
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/store/auth'
-
+import { useRouter } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
 const error = ref('')
 
 const authStore = useAuthStore()
+const router = useRouter()
 
 onMounted(async () => {
   await authStore.fetchUser()

@@ -146,23 +146,6 @@ def user(request):
         {'message': 'Not logged in'}, status=401
     )
 
-def getNameHandle(request, user_id):
-
-    try:
-        user = User.objects.get(pk=user_id)
-        user_profile = UserProfile.objects.get(user=user)
-
-        data = {
-            'first_name': user_profile.user.first_name,
-            'last_name': user_profile.user.last_name,
-            'username': user_profile.user.username,
-        }
-
-        return JsonResponse(data, status=200)
-
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer

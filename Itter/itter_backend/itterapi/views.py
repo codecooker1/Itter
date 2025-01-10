@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from supabase import create_client
 from .models import UserProfile, Post, Like, Follow, User
-from .forms import UserProfileForm
+from .forms import UserProfileForm, PostForm
 from .serializers import UserProfileSerializer, PostSerializer, LikeSerializer, FollowSerializer
 from rest_framework import viewsets
 import os
@@ -16,11 +16,6 @@ import os
 url = os.environ["SUPABASE_URL"]
 key = os.environ["SUPABASE_KEY"]
 supabase = create_client(url, key)
-
-class UserProfileViewSet(viewsets.ModelViewSet):
-    queryset = UserProfile.objects.all()
-
-    serializer_class = UserProfileSerializer
 
 @ensure_csrf_cookie
 @require_http_methods(['GET'])
@@ -34,7 +29,6 @@ def set_csrf_token(request):
 def default_index(request):
     return JsonResponse({"message":"Hey site is working, maybe"})
 
-@csrf_exempt  
 def create_user_and_profile(request):
     """
     Creates a new user and profile from JSON data in the request body.
@@ -86,16 +80,38 @@ def create_user_and_profile(request):
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-@csrf_exempt
+@require_http_methods(['POST'])
 def create_post(request):
+    """
+    Handles the creation of a new post.
+
+    Accepts only POST requests with form-encoded data. If the form is valid, it saves
+    a new Post object with the current user and returns a JSON response with a success
+    message and the post ID. If the form is invalid, it returns a JSON response with an
+    error message. For GET requests, it returns a JSON response indicating the invalid
+    request method.
+
+    Parameters:
+    request (HttpRequest): The HTTP request object containing POST data.
+
+    Returns:
+    JsonResponse: A JSON response with a success message and post ID, or an error message.
+    """
+
     if request.method == 'POST':
-        # data = json.loads(request.body.decode('utf-8'))
-        return JsonResponse({'message': str(request.body)})
+        data = json.loads(request.body)
+        form = PostForm(data)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return JsonResponse({'message': 'Post created successfully!', "post_id": post.post_id}, status=201)
+        else:
+            return JsonResponse({'message': 'Invalid JSON', "form": data}, status=401)
     if request.method == 'GET':
-       return JsonResponse({'message': 'Invalid request method GET'})
+       return JsonResponse({'message': 'Invalid request method GET'}, status = 405)
 
 @require_http_methods(['POST'])
-@csrf_exempt
 def login_view(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
@@ -138,6 +154,7 @@ def user(request):
                 'username': request.user.username,
                 'first_name': request.user.first_name,
                 'last_name': request.user.last_name,
+                'email': request.user.email,
                 'profile_image': request.user.userprofile.profile_image,
                 'bio': request.user.userprofile.bio
             }
@@ -150,8 +167,15 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer
     basename = 'user' # Important for reverse lookups
+    lookup_field = 'username'
+    lookup_url_kwarg = 'username'
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     basename = 'post' # Important for reverse lookups
+    
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+
+    serializer_class = UserProfileSerializer

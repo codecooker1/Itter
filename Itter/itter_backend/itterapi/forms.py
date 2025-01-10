@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import UserProfile, Post
 from django.utils import timezone
 
 class UserProfileForm(forms.ModelForm):
@@ -55,3 +55,8 @@ class UserProfileForm(forms.ModelForm):
         profile.user = user
         profile.save()
         return profile
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('content',)

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+env = os.environ
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ptu@)z5n0esedd#h!(qh=*x%ymioeplim+=yr66#k=s#2cxko*'
+SECRET_KEY = env['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,14 +34,13 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:9000']  # We add your frontend URL her
 
 ALLOWED_HOSTS = []
 
-env = os.environ
+
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'corsheaders',
-    # 'accounts',
     'itterapi.apps.ItterapiConfig',
     'django.contrib.admin',
     'django.contrib.auth',

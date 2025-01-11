@@ -356,7 +356,7 @@ export default {
         await this.uploadFile(this.selectedFile)
         console.log(getCSRFToken())
 
-        const response = await fetch('http://localhost:8000/api/create-user/', {
+        const response = await fetch('https://itter.pythonanywhere.com/api/create-user/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

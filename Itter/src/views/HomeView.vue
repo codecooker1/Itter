@@ -26,7 +26,7 @@ import { getCSRFToken } from '@/store/auth';
 const posts = ref([])
 
 onMounted(async () => {
-  const response = await fetch('http://localhost:8000/api/feed/', {
+  const response = await fetch('https://itter.pythonanywhere.com/api/feed/', {
     method: 'GET',
     credentials: 'include',
     headers: {

@@ -20,7 +20,7 @@ const content = ref('')
 const error = ref(null)
 
 async function createPost() {
-  const response = await fetch('http://localhost:8000/api/create/post', {
+  const response = await fetch('https://itter.pythonanywhere.com/api/create/post', {
     method: 'POST',
     credentials: 'include',
     headers: {

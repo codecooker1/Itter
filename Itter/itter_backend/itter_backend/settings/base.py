@@ -27,10 +27,11 @@ SECRET_KEY = env['DJANGO_SECRET_KEY']
 DEBUG = True
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:9000"]  # We add your frontend URL here.
-CSRF_TRUSTED_ORIGINS = ['http://localhost:9000']  # We add your frontend URL here.
+CORS_ORIGIN_WHITELIST = ['https://codecooker1.github.io', "localhost"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:9000", "codecooker1.github.io"]  # We add your frontend URL here.
+CSRF_TRUSTED_ORIGINS = ['http://localhost:9000', "codecooker1.github.io"]  # We add your frontend URL here.
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', "codecooker1.github.io"]
 
 
 

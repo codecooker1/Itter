@@ -5,7 +5,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['itter.pythonanywhere.com', 'aws-0-us-east-1.pooler.supabase.com', 'codecooker1.github.io']
 
 CORS_ALLOWED_ORIGINS = ["codecooker1.github.io"]  # We add your frontend URL here.
-CORS_ORIGIN_WHITELIST = ('codecooker1.github.io',)
+CORS_ORIGIN_WHITELIST = ['https://codecooker1.github.io',]
 CSRF_TRUSTED_ORIGINS = ["codecooker1.github.io"]  # We add your frontend URL here.
 SESSION_COOKIE_DOMAIN="codecooker1.github.io"
 

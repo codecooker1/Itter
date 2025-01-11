@@ -38,6 +38,11 @@ async function createPost() {
   if (data.error) {
     console.log(data.error)
     error.value = data.error
+  }else {
+    console.log('success')
+    error.value = null
+    content.value = ''
+    
   }
 }
 </script>

@@ -13,6 +13,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import RetrieveAPIView
 import os
+from django.middleware.csrf import get_token
 # from . import forms
 
 url = os.environ["SUPABASE_URL"]
@@ -25,8 +26,8 @@ def set_csrf_token(request):
     """
     We set the CSRF cookie on the frontend.
     """
-    
-    return JsonResponse({'message': 'CSRF cookie set'})
+    csrf_token = get_token(request)
+    return JsonResponse({'csrfToken': csrf_token})
 
 # Create your views here.
 def default_index(request):

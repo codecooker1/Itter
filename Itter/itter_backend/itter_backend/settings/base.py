@@ -1,3 +1,13 @@
+"""
+Django settings for itter_backend project.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.1/topics/settings/
+
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/5.1/ref/settings/
+"""
+
 from pathlib import Path
 import os
 
@@ -64,6 +74,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            # "pool":{
+            #     "min_size": 2,
+            #     "max_size": 4,
+            #     "timeout": 10
+            # }
         },
     },
 ]
@@ -138,3 +153,5 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH_PROFILE_MODULE = ''
+
+CONN_MAX_AGE=1024

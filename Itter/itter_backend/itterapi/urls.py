@@ -18,19 +18,25 @@ from django.contrib import admin
 from django.urls import path, include
 import rest_framework.urls
 from . import views
+from .feeds import PostFeed
 from rest_framework import routers
 from django.contrib.auth import views as auth_views
 
 router = routers.DefaultRouter()
 
 router.register(r'userprofile', views.UserProfileViewSet)
+router.register('users', views.UserViewSet, basename='user')
+router.register('posts', views.PostViewSet, basename='post')
 
 urlpatterns = [
     path('', views.default_index, name='index'),
+    path('0', include(router.urls)),
     path('create/post', views.create_post, name='create_post'),
     path('set-csrf-token', views.set_csrf_token, name='set_csrf_token'),
     path('login', views.login_view, name='login'),
     path('logout', views.logout_view, name='logout'),
     path('user', views.user, name='user'),
     path('create-user/', views.create_user_and_profile, name='create_user_and_profile'),
+    path('feed/', views.get_feed, name='post-feed'),
+    path('post-detail/<pk>', views.get_post_details, name='post_details'),
 ]

@@ -9,18 +9,12 @@
     </div>
     <div class="main-post">
       <slot>
-        <p>
-          Praesent ut sodales nisl. Praesent facilisis libero leo. Phasellus sollicitudin ipsum sit
-          amet aliquet malesuada. Quisque eget dui commodo, accumsan mauris vitae, tincidunt lectus.
-          Praesent elementum mi quis lorem auctor, sit amet feugiat ligula dignissim. Etiam ac
-          sapien malesuada, interdum turpis sollicitudin, varius metus. Proin sit amet ultrices
-          magna, eu facilisis massa. Nam risus augue, accumsan eget ante sit amet, tempor vestibulum
-          neque. Vestibulum tristique facilisis tortor sit amet sodales. Maecenas cursus iaculis
-          lorem at rhoncus. Pellentesque et dui dolor. Ut at bibendum arcu.
-        </p>
+        <br>
+        <div>{{ content }}</div>
+        <br>
       </slot>
     </div>
-    <div class="media-gallery"></div>
+    <div v-if="media" class="media-gallery"><image :src="media" /></div>
     <div class="action-bar">
       <div class="action-btn">
         <LikeButton />
@@ -37,24 +31,27 @@
 import ProfileIcon from './icons/ProfileIcon.vue'
 import LikeButton from './LikeButton.vue'
 import { ref, onActivated, onMounted } from 'vue'
-import { useAuthStore } from '@/store/auth.js'
+// import { useAuthStore } from '@/store/auth.js'
 
 const profile_name = ref('default_name')
 const profile_handle = ref('default_handle')
 const profilePictureUrl = ref('')
+const content = ref('')
+const media = ref('')
 
-const authstore = useAuthStore()
+// const authstore = useAuthStore()
 
-const user = ref(null)
+// const user = ref(null)
+
+const props = defineProps(['post'])
 
 async function getPostContent() {
-  user.value = authstore.user
-
-  if (user.value) {
-    profile_name.value = user.value.first_name + ' ' + user.value.last_name
-    profile_handle.value = user.value.username
-    profilePictureUrl.value = user.value.profile_image
-  }
+  console.log(props.post)
+  profile_name.value = props.post.user.first_name + ' ' + props.post.user.last_name
+  profile_handle.value = props.post.user.username
+  profilePictureUrl.value = props.post.user.profile_image
+  content.value = props.post.content
+  media.value = props.post.image
 }
 
 onMounted(async () => {
@@ -74,8 +71,25 @@ article {
   background-color: #2e3440;
   /*#222222;*/
   min-height: 54px;
+  margin: 2px;
   padding: 16px;
-  width: 99%;
+  overflow-wrap: break-word;
+}
+
+/* @media screen and (max-width: 1174px) {
+  article {
+    width: calc(100% - 4px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  article {
+    width: calc(100% - 2px);
+  }
+} */
+
+.main-post {
+  width: 100%;
 }
 
 .action-btn {

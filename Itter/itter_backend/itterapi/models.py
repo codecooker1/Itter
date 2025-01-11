@@ -58,8 +58,9 @@ class Post(models.Model):
     post_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     content = models.TextField(max_length=250)
-    media_url = models.URLField(validators=[validate_media_url])
+    media_url = models.URLField(validators=[validate_media_url], null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return (

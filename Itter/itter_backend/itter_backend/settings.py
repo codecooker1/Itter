@@ -32,7 +32,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = ["http://localhost:9000"]  # We add your frontend URL here.
 CSRF_TRUSTED_ORIGINS = ['http://localhost:9000']  # We add your frontend URL here.
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 

@@ -10,6 +10,8 @@ from .models import UserProfile, Post, Like, Follow, User
 from .forms import UserProfileForm, PostForm
 from .serializers import UserProfileSerializer, PostSerializer, LikeSerializer, FollowSerializer
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
+from rest_framework.generics import RetrieveAPIView
 import os
 # from . import forms
 
@@ -162,6 +164,47 @@ def user(request):
     return JsonResponse(
         {'message': 'Not logged in'}, status=401
     )
+    
+def get_feed(request):
+    posts = Post.objects.all().order_by('-created_at')
+    post_data = []
+    for post in posts:
+        post_data.append({
+            'post_id': post.post_id,
+            'content': post.content,
+            'image': post.media_url,
+            'created_at': post.created_at,
+            # 'updated_at': post.updated_at,
+            'user': {
+                'username': post.user.username,
+                'first_name': post.user.first_name,
+                'last_name': post.user.last_name,
+                'profile_image': post.user.userprofile.profile_image,
+                'bio': post.user.userprofile.bio
+            }
+        })
+    return JsonResponse({'posts': post_data})
+    
+def get_post_details(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+        return JsonResponse({
+            'post_id': post.post_id,
+            'user_id': post.user_id,
+            'content': post.content,
+            'image': post.image,
+            'created_at': post.created_at,
+            'updated_at': post.updated_at,
+            'user': {
+                'username': post.user.username,
+                'first_name': post.user.first_name,
+                'last_name': post.user.last_name,
+                'profile_image': post.user.userprofile.profile_image,
+                'bio': post.user.userprofile.bio
+            }
+        })
+    except Post.DoesNotExist:
+        return JsonResponse({'message': 'Post not found'}, status=404)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -174,8 +217,14 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     basename = 'post' # Important for reverse lookups
+    permission_classes = [AllowAny]
     
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
 
     serializer_class = UserProfileSerializer
+    
+class PostDetailsView(RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    lookup_field = 'pk'

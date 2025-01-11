@@ -16,13 +16,13 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     likes = serializers.ReadOnlyField()
     user = serializers.HyperlinkedRelatedField(
-        view_name='user-detail',  # Replace with your user detail view name
+        view_name='user',  # Replace with your user detail view name
         read_only=True
     )
 
     class Meta:
         model = Post
-        fields = ['url', 'post_id', 'user', 'content', 'media_url', 'created_at', 'likes']
+        fields = ['post_id', 'user', 'content', 'media_url', 'created_at', 'likes']
 
 class LikeSerializer(serializers.HyperlinkedModelSerializer):
     post = serializers.HyperlinkedRelatedField(

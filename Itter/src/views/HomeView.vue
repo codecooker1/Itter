@@ -5,119 +5,10 @@
     </div>
     <main class="feedarea">
       <div class="h-2"></div>
-      <SinglePost> </SinglePost>
-      <SinglePost
-        >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias eos adipisci nisi quos
-        sint. Sunt eum suscipit corrupti dolores maiores?</SinglePost
-      >
-      <SinglePost
-        >Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem, maxime.</SinglePost
-      >
-      <SinglePost>Lorem ipsum dolor sit amet.</SinglePost>
-      <SinglePost
-        >Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas dolor hic aut.</SinglePost
-      >
-      <SinglePost>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus autem nihil sunt,
-        consequatur fugit soluta asperiores quo accusamus recusandae commodi quod delectus harum,
-        similique vero voluptates alias necessitatibus dicta in suscipit temporibus pariatur. Minus
-        saepe obcaecati ab, excepturi, cupiditate consectetur quasi mollitia voluptatum fuga eaque
-        veniam, facere provident voluptatem aliquid soluta. Deleniti beatae laborum necessitatibus
-        quibusdam veniam, error reiciendis earum neque dolorem non cumque quasi illum odio obcaecati
-        aperiam iusto rem, in sunt aut ea totam. Illum ratione quas pariatur, veniam aliquid iusto
-        voluptates quasi corrupti, sunt, explicabo minima! Animi ut modi eum totam at, numquam
-        eligendi cupiditate dicta iusto nulla voluptates architecto dolores excepturi cumque
-        repellendus perspiciatis nostrum suscipit. Molestiae dicta inventore est similique
-        dignissimos odio saepe iste assumenda dolores molestias quas sunt blanditiis beatae,
-        temporibus magni illo. Optio rerum, veritatis, iste dolorum laudantium saepe accusamus nulla
-        ullam doloremque modi nobis quis, iure deserunt voluptatum porro ea eveniet nesciunt. Nisi,
-        dolorem assumenda! Asperiores nobis magnam, explicabo recusandae eaque tenetur maxime rerum?
-        Dolorem odit totam, debitis sequi ex voluptatibus sed aliquid quas eligendi hic, mollitia
-        obcaecati inventore voluptate officiis illo dolore voluptates quae repellat quis consectetur
-        sit iste? Nesciunt eaque deserunt, nemo quibusdam consectetur aspernatur mollitia ut aliquam
-        voluptatum numquam!
-      </SinglePost>
-      <SinglePost>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus autem nihil sunt,
-        consequatur fugit soluta asperiores quo accusamus recusandae commodi quod delectus harum,
-        similique vero voluptates alias necessitatibus dicta in suscipit temporibus pariatur. Minus
-        saepe obcaecati ab, excepturi, cupiditate consectetur quasi mollitia voluptatum fuga eaque
-        veniam, facere provident voluptatem aliquid soluta. Deleniti beatae laborum necessitatibus
-        quibusdam veniam, error reiciendis earum neque dolorem non cumque quasi illum odio obcaecati
-        aperiam iusto rem, in sunt aut ea totam. Illum ratione quas pariatur, veniam aliquid iusto
-        voluptates quasi corrupti, sunt, explicabo minima! Animi ut modi eum totam at, numquam
-        eligendi cupiditate dicta iusto nulla voluptates architecto dolores excepturi cumque
-        repellendus perspiciatis nostrum suscipit. Molestiae dicta inventore est similique
-        dignissimos odio saepe iste assumenda dolores molestias quas sunt blanditiis beatae,
-        temporibus magni illo. Optio rerum, veritatis, iste dolorum laudantium saepe accusamus nulla
-        ullam doloremque modi nobis quis, iure deserunt voluptatum porro ea eveniet nesciunt. Nisi,
-        dolorem assumenda! Asperiores nobis magnam, explicabo recusandae eaque tenetur maxime rerum?
-        Dolorem odit totam, debitis sequi ex voluptatibus sed aliquid quas eligendi hic, mollitia
-        obcaecati inventore voluptate officiis illo dolore voluptates quae repellat quis consectetur
-        sit iste? Nesciunt eaque deserunt, nemo quibusdam consectetur aspernatur mollitia ut aliquam
-        voluptatum numquam!
-      </SinglePost>
-      <SinglePost>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus autem nihil sunt,
-        consequatur fugit soluta asperiores quo accusamus recusandae commodi quod delectus harum,
-        similique vero voluptates alias necessitatibus dicta in suscipit temporibus pariatur. Minus
-        saepe obcaecati ab, excepturi, cupiditate consectetur quasi mollitia voluptatum fuga eaque
-        veniam, facere provident voluptatem aliquid soluta. Deleniti beatae laborum necessitatibus
-        quibusdam veniam, error reiciendis earum neque dolorem non cumque quasi illum odio obcaecati
-        aperiam iusto rem, in sunt aut ea totam. Illum ratione quas pariatur, veniam aliquid iusto
-        voluptates quasi corrupti, sunt, explicabo minima! Animi ut modi eum totam at, numquam
-        eligendi cupiditate dicta iusto nulla voluptates architecto dolores excepturi cumque
-        repellendus perspiciatis nostrum suscipit. Molestiae dicta inventore est similique
-        dignissimos odio saepe iste assumenda dolores molestias quas sunt blanditiis beatae,
-        temporibus magni illo. Optio rerum, veritatis, iste dolorum laudantium saepe accusamus nulla
-        ullam doloremque modi nobis quis, iure deserunt voluptatum porro ea eveniet nesciunt. Nisi,
-        dolorem assumenda! Asperiores nobis magnam, explicabo recusandae eaque tenetur maxime rerum?
-        Dolorem odit totam, debitis sequi ex voluptatibus sed aliquid quas eligendi hic, mollitia
-        obcaecati inventore voluptate officiis illo dolore voluptates quae repellat quis consectetur
-        sit iste? Nesciunt eaque deserunt, nemo quibusdam consectetur aspernatur mollitia ut aliquam
-        voluptatum numquam!
-      </SinglePost>
-      <SinglePost>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus autem nihil sunt,
-        consequatur fugit soluta asperiores quo accusamus recusandae commodi quod delectus harum,
-        similique vero voluptates alias necessitatibus dicta in suscipit temporibus pariatur. Minus
-        saepe obcaecati ab, excepturi, cupiditate consectetur quasi mollitia voluptatum fuga eaque
-        veniam, facere provident voluptatem aliquid soluta. Deleniti beatae laborum necessitatibus
-        quibusdam veniam, error reiciendis earum neque dolorem non cumque quasi illum odio obcaecati
-        aperiam iusto rem, in sunt aut ea totam. Illum ratione quas pariatur, veniam aliquid iusto
-        voluptates quasi corrupti, sunt, explicabo minima! Animi ut modi eum totam at, numquam
-        eligendi cupiditate dicta iusto nulla voluptates architecto dolores excepturi cumque
-        repellendus perspiciatis nostrum suscipit. Molestiae dicta inventore est similique
-        dignissimos odio saepe iste assumenda dolores molestias quas sunt blanditiis beatae,
-        temporibus magni illo. Optio rerum, veritatis, iste dolorum laudantium saepe accusamus nulla
-        ullam doloremque modi nobis quis, iure deserunt voluptatum porro ea eveniet nesciunt. Nisi,
-        dolorem assumenda! Asperiores nobis magnam, explicabo recusandae eaque tenetur maxime rerum?
-        Dolorem odit totam, debitis sequi ex voluptatibus sed aliquid quas eligendi hic, mollitia
-        obcaecati inventore voluptate officiis illo dolore voluptates quae repellat quis consectetur
-        sit iste? Nesciunt eaque deserunt, nemo quibusdam consectetur aspernatur mollitia ut aliquam
-        voluptatum numquam!
-      </SinglePost>
-      <SinglePost>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus autem nihil sunt,
-        consequatur fugit soluta asperiores quo accusamus recusandae commodi quod delectus harum,
-        similique vero voluptates alias necessitatibus dicta in suscipit temporibus pariatur. Minus
-        saepe obcaecati ab, excepturi, cupiditate consectetur quasi mollitia voluptatum fuga eaque
-        veniam, facere provident voluptatem aliquid soluta. Deleniti beatae laborum necessitatibus
-        quibusdam veniam, error reiciendis earum neque dolorem non cumque quasi illum odio obcaecati
-        aperiam iusto rem, in sunt aut ea totam. Illum ratione quas pariatur, veniam aliquid iusto
-        voluptates quasi corrupti, sunt, explicabo minima! Animi ut modi eum totam at, numquam
-        eligendi cupiditate dicta iusto nulla voluptates architecto dolores excepturi cumque
-        repellendus perspiciatis nostrum suscipit. Molestiae dicta inventore est similique
-        dignissimos odio saepe iste assumenda dolores molestias quas sunt blanditiis beatae,
-        temporibus magni illo. Optio rerum, veritatis, iste dolorum laudantium saepe accusamus nulla
-        ullam doloremque modi nobis quis, iure deserunt voluptatum porro ea eveniet nesciunt. Nisi,
-        dolorem assumenda! Asperiores nobis magnam, explicabo recusandae eaque tenetur maxime rerum?
-        Dolorem odit totam, debitis sequi ex voluptatibus sed aliquid quas eligendi hic, mollitia
-        obcaecati inventore voluptate officiis illo dolore voluptates quae repellat quis consectetur
-        sit iste? Nesciunt eaque deserunt, nemo quibusdam consectetur aspernatur mollitia ut aliquam
-        voluptatum numquam!
-      </SinglePost>
-      <SinglePost> </SinglePost>
+      <div class="post" v-for="post in posts" :key="post.ipost_id">
+        <SinglePost :post="post" />
+      </div>
+      
     </main>
     <div class="sidebar-wrapper">
       <SidebarView />
@@ -129,6 +20,25 @@
 import SinglePost from '@/components/SinglePost.vue'
 import SidebarView from '@/components/SidebarView.vue'
 import UserSidebar from '@/components/UserSidebar.vue'
+import { onMounted, ref } from 'vue';
+import { getCSRFToken } from '@/store/auth';
+
+const posts = ref([])
+
+onMounted(async () => {
+  const response = await fetch('http://localhost:8000/api/feed/', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCSRFToken(),
+      'Accept-Encoding': 'gzip, deflate, br',
+    },
+    })
+  const data = await response.json()
+  posts.value = data.posts
+  console.log(posts)
+})
 </script>
 
 <style>
@@ -185,6 +95,10 @@ import UserSidebar from '@/components/UserSidebar.vue'
   .sidebar-wrapper {
     min-width: 55px;
   }
+}
+
+.post {
+  width: 100%;
 }
 
 /* width */

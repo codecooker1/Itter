@@ -22,10 +22,16 @@ supabase = create_client(url, key)
 @ensure_csrf_cookie
 @require_http_methods(['GET'])
 def set_csrf_token(request):
-    """
-    We set the CSRF cookie on the frontend.
-    """
-    return JsonResponse({'message': 'CSRF cookie set'})
+    response = JsonResponse({'message': 'CSRF cookie set'})
+    response.set_cookie(
+        'csrftoken',
+        value=request.COOKIES['csrftoken'],
+        domain=None,
+        secure=True,
+        httponly=True,
+        partitioned=True,
+    )
+    return response
 
 # Create your views here.
 def default_index(request):

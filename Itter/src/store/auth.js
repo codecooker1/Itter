@@ -27,10 +27,11 @@ export const useAuthStore = defineStore('auth', {
      * up-to-date.
      */
     async setCsrfToken() {
-      await fetch('https://itter.pythonanywhere.com/api/set-csrf-token', {
+      const request = await fetch('https://itter.pythonanywhere.com/api/set-csrf-token', {
         method: 'GET',
         credentials: 'include'
       })
+      console.log(request)
     },
 
     async login(email, password, router = null) {

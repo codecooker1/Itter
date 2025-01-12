@@ -8,7 +8,8 @@ CORS_ALLOWED_ORIGINS = ["https://codecooker1.github.io"]  # We add your frontend
 CORS_ORIGIN_WHITELIST = ['https://codecooker1.github.io',]
 CSRF_TRUSTED_ORIGINS = ["https://codecooker1.github.io"]  # We add your frontend URL here.
 SESSION_COOKIE_DOMAIN="codecooker1.github.io"
-
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
 
 MIDDLEWARE = [
     'itter_backend.middleware.CookiePartitioningMiddleware',
@@ -28,7 +29,6 @@ SECURE_HSTS_PRELOAD = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_SSL_REDIRECT = True
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True

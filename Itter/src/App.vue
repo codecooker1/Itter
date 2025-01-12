@@ -26,7 +26,7 @@ const logout = async () => {
 }
 
 onBeforeMount(async () => {
-  authStore.setCsrfToken()
+  await authStore.setCsrfToken()
   await authStore.fetchUser()
   console.log('done')
 })

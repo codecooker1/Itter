@@ -75,11 +75,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-            # "pool":{
-            #     "min_size": 2,
-            #     "max_size": 4,
-            #     "timeout": 10
-            # }
         },
     },
 ]

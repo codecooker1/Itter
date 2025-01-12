@@ -1,6 +1,7 @@
 from http import cookies
 from django.utils.deprecation import MiddlewareMixin
 from django.http import HttpRequest, HttpResponseBase
+from django.middleware.common import CommonMiddleware
 from django.conf import settings
 
 cookies.Morsel._flags.add("partitioned")
@@ -19,3 +20,13 @@ class CookiePartitioningMiddleware(MiddlewareMixin):
                 cookie["Partitioned"] = True
 
         return response
+    
+
+class AllowCorsMiddleware(CommonMiddleware):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def process_response(self, request, response):
+        response['Access-Control-Allow-Origin'] = 'https://codecooker1.github.io'
+        response['Access-Control-Allow-Credentials'] = 'true'
+        return super().process_response(request, response)

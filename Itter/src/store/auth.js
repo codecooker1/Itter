@@ -1,15 +1,18 @@
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
-  /**
-   * Returns the initial state of the authentication store.
-   *
-   * The state is loaded from local storage if available; otherwise, it defaults to
-   * an unauthenticated state with a null user.
-   *
-   * @returns {Object} The initial state, with `user` set to null and `isAuthenticated` set to false if not found in local storage.
-   */
 
+  /**
+   * The state of the authentication store.
+   *
+   * The state is saved in `localStorage` under the key `authState`.
+   *
+   * @type {{
+   *   user: null | import('~/types').User,
+   *   isAuthenticated: boolean,
+   *   csrfToken: null | string
+   * }}
+   */
   state: () => {
     const storedState = localStorage.getItem('authState')
     return storedState
@@ -33,7 +36,6 @@ export const useAuthStore = defineStore('auth', {
         credentials: 'include'
       })
       const data = await response.json()
-      console.log(data)
       this.csrfToken = data.csrfToken
     },
     async login(email, password, router = null) {
@@ -140,29 +142,3 @@ export const useAuthStore = defineStore('auth', {
     }
   }
 })
-
-/**
- * Gets the CSRF token from the cookie.
- *
- * This is necessary for CSRF protection in Django.
- * @returns {string} The CSRF token.
- * @throws {Error} If the CSRF cookie is missing.
- */
-export function getCSRFToken() {
-  const name = 'csrftoken'
-  let cookieValue = null
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';')
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim()
-      if (cookie.substring(0, name.length + 1) === name + '=') {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
-        break
-      }
-    }
-  }
-  if (cookieValue === null) {
-    throw 'Missing CSRF cookie.'
-  }
-  return cookieValue
-}

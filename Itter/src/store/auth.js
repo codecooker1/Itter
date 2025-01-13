@@ -33,6 +33,7 @@ export const useAuthStore = defineStore('auth', {
         credentials: 'include'
       })
       const data = await response.json()
+      console.log(data)
       this.csrfToken = data.csrfToken
     },
     async login(email, password, router = null) {
@@ -132,7 +133,8 @@ export const useAuthStore = defineStore('auth', {
         'authState',
         JSON.stringify({
           user: this.user,
-          isAuthenticated: this.isAuthenticated
+          isAuthenticated: this.isAuthenticated,
+          csrfToken: this.csrfToken,
         })
       )
     }

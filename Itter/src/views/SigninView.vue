@@ -2,7 +2,7 @@
   <div class="form-holder">
     <div class="form-box">
       <span class="title">Register</span>
-      <form @submit.prevent="authStore.login(email, password, router)" class="form">
+      <form @submit.prevent="signin" class="form">
         <div class="textInputWrapper">
           <label for="email">E-mail</label>
           <input
@@ -232,6 +232,14 @@ const error = ref('')
 
 const authStore = useAuthStore()
 const router = useRouter()
+
+const signin = async () => {
+  try {
+    await authStore.login(email.value, password.value, router)
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 onMounted(async () => {
   await authStore.fetchUser()

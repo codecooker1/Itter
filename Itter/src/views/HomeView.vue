@@ -21,9 +21,10 @@ import SinglePost from '@/components/SinglePost.vue'
 import SidebarView from '@/components/SidebarView.vue'
 import UserSidebar from '@/components/UserSidebar.vue'
 import { onMounted, ref } from 'vue';
-import { getCSRFToken } from '@/store/auth';
+import { useAuthStore } from '@/store/auth';
 
 const posts = ref([])
+const authStore = useAuthStore()
 
 onMounted(async () => {
   const response = await fetch('https://itter.pythonanywhere.com/api/feed/', {
@@ -31,7 +32,7 @@ onMounted(async () => {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      'X-CSRFToken': getCSRFToken(),
+      'X-CSRFToken': authStore.csrfToken,
       'Accept-Encoding': 'gzip, deflate, br',
     },
     })

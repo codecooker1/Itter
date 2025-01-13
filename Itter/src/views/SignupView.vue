@@ -288,7 +288,7 @@
 </style>
 
 <script>
-import { getCSRFToken, useAuthStore } from '@/store/auth'
+import { useAuthStore } from '@/store/auth'
 import { createClient } from '@supabase/supabase-js'
 import { nanoid } from 'nanoid'
 
@@ -308,7 +308,7 @@ export default {
       supabase: null,
       uploadError: '',
       imageUrl: '',
-      useAuthStore: ''
+      authStore: ''
     }
   },
 
@@ -354,13 +354,13 @@ export default {
     async register() {
       try {
         await this.uploadFile(this.selectedFile)
-        console.log(getCSRFToken())
+        console.log(this.authStore.csrfToken)
 
         const response = await fetch('https://itter.pythonanywhere.com/api/create-user/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCSRFToken()
+            'X-CSRFToken': this.authStore.csrfToken
           },
           body: JSON.stringify({
             firstname: this.firstname,

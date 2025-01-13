@@ -16,7 +16,8 @@ export const useAuthStore = defineStore('auth', {
       ? JSON.parse(storedState)
       : {
           user: null,
-          isAuthenticated: false
+          isAuthenticated: false,
+          csrfToken: null,
         }
   },
   actions: {
@@ -27,19 +28,19 @@ export const useAuthStore = defineStore('auth', {
      * up-to-date.
      */
     async setCsrfToken() {
-      const request = await fetch('https://itter.pythonanywhere.com/api/set-csrf-token', {
+      const response = await fetch('https://itter.pythonanywhere.com/api/set-csrf-token', {
         method: 'GET',
         credentials: 'include'
       })
-      console.log(request)
+      const data = await response.json()
+      this.csrfToken = data.csrfToken
     },
-
     async login(email, password, router = null) {
       const response = await fetch('https://itter.pythonanywhere.com/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': getCSRFToken()
+          'X-CSRFToken': this.csrfToken
         },
         body: JSON.stringify({ email, password }),
         credentials: 'include'
@@ -72,7 +73,7 @@ export const useAuthStore = defineStore('auth', {
         const response = await fetch('https://itter.pythonanywhere.com/api/logout', {
           method: 'POST',
           headers: {
-            'X-CSRFToken': getCSRFToken()
+            'X-CSRFToken': this.csrfToken
           },
           credentials: 'include'
         })
@@ -101,7 +102,7 @@ export const useAuthStore = defineStore('auth', {
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCSRFToken()
+            'X-CSRFToken': this.csrfToken
           }
         })
         if (response.ok) {

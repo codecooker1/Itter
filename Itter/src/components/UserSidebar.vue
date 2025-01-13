@@ -14,10 +14,11 @@
 
 <script setup>
 import { ref } from 'vue';
-import { getCSRFToken } from '@/store/auth.js';
+import { useAuthStore } from '@/store/auth.js';
 
 const content = ref('')
 const error = ref(null)
+const authStore = useAuthStore()
 
 async function createPost() {
   const response = await fetch('https://itter.pythonanywhere.com/api/create/post', {
@@ -25,7 +26,7 @@ async function createPost() {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      'X-CSRFToken': getCSRFToken()
+      'X-CSRFToken': authStore.csrfToken
     },
     body: JSON.stringify({
       content: content.value

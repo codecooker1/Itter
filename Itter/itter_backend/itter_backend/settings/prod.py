@@ -8,8 +8,22 @@ CORS_ALLOWED_ORIGINS = ["https://codecooker1.github.io", "https://itter.pythonan
 CORS_ORIGIN_WHITELIST = ['https://codecooker1.github.io', "https://itter.pythonanywhere.com"]
 CSRF_TRUSTED_ORIGINS = ["https://codecooker1.github.io", "https://itter.pythonanywhere.com"]  # We add your frontend URL here.
 SESSION_COOKIE_DOMAIN="codecooker1.github.io"
+CSRF_COOKIE_DOMAIN = "codecooker1.github.io"
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_HTTPONLY = False
+CSRF_COOKIE_PARTITIONED = True
+CORS_ALLOWS_CREDENTIALS = True
+
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_SSL_REDIRECT = True
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 MIDDLEWARE = [
     'itter_backend.middleware.CookiePartitioningMiddleware',
@@ -22,19 +36,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_SSL_REDIRECT = True
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-CSRF_COOKIE_SAMESITE = 'None'
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_PARTITIONED = True
-CORS_ALLOWS_CREDENTIALS = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Use pythonanywhere's database
 DATABASES = {

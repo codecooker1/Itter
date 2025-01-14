@@ -101,11 +101,11 @@ WSGI_APPLICATION = 'itter_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': f'{env["DB_NAME"]}',
-        'USER': f'{env["DB_USER"]}',
-        'PASSWORD': f'{env["DB_PASS"]}',
-        'HOST': f'{env["DB_HOST"]}',
-        'PORT': f'{env["DB_PORT"]}',
+        'NAME': f'{env["DB_NAME_PROD"]}',
+        'USER': f'{env["DB_USER_PROD"]}',
+        'PASSWORD': f'{env["DB_PASS_PROD"]}',
+        'HOST': f'{env["DB_HOST_PROD"]}',
+        'PORT': f'{env["DB_PORT_PROD"]}',
     }
 }
 

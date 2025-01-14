@@ -35,3 +35,14 @@ CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_PARTITIONED = True
 CORS_ALLOWS_CREDENTIALS = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Use pythonanywhere's database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': f'{env["DB_NAME"]}',
+        'USER': f'{env["DB_USER"]}',
+        'PASSWORD': f'{env["DB_PASS"]}',
+        'HOST': f'{env["DB_HOST"]}',
+    }
+}

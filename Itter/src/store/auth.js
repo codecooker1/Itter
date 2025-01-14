@@ -37,6 +37,7 @@ export const useAuthStore = defineStore('auth', {
       })
       const data = await response.json()
       this.csrfToken = data.csrfToken
+      document.cookie = `${document.cookie}; csrftoken=${data.csrfToken};`
     },
     async login(email, password, router = null) {
       const response = await fetch('https://itter.pythonanywhere.com/api/login', {
@@ -51,6 +52,8 @@ export const useAuthStore = defineStore('auth', {
       const data = await response.json()
       if (data.success) {
         this.isAuthenticated = true
+        document.cookie = `${document.cookie}; csrftoken=${data.csrfToken}; sessionid=${data.sessionid};`
+        console.log(data.csrfToken, data.sessionid)
         this.saveState()
         if (router) {
           await router.push({ name: 'home' })

@@ -12,7 +12,7 @@ SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
 
 MIDDLEWARE = [
-    'itter_backend.middleware.CookiePartitioningMiddleware',
+    # 'itter_backend.middleware.CookiePartitioningMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

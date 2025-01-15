@@ -54,6 +54,7 @@ export const useAuthStore = defineStore('auth', {
         this.isAuthenticated = true
         document.cookie = `csrftoken=${data.csrfToken}`
         document.cookie = `sessionid=${data.sessionid}`
+        console.log(`data is \n ${data}`)
         console.log(data.csrfToken, data.sessionid)
         this.saveState()
         if (router) {

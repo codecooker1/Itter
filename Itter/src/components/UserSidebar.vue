@@ -21,6 +21,7 @@ const error = ref(null)
 const authStore = useAuthStore()
 
 async function createPost() {
+  authStore.setCsrfToken()
   const response = await fetch('https://itter.pythonanywhere.com/api/create/post', {
     method: 'POST',
     credentials: 'include',

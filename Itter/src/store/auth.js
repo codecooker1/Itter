@@ -37,9 +37,10 @@ export const useAuthStore = defineStore('auth', {
       })
       const data = await response.json()
       this.csrfToken = data.csrfToken
-      // document.cookie = `csrftoken=${data.csrfToken};SameSite=None;secure;Domain=itter.pythonanywhere.com`
+      console.log(`csrf token is \n ${this.csrfToken} vs ${data.csrfToken}`)
     },
     async login(email, password, router = null) {
+      this.setCsrfToken()
       const response = await fetch('https://itter.pythonanywhere.com/api/login', {
         method: 'POST',
         headers: {
@@ -52,8 +53,6 @@ export const useAuthStore = defineStore('auth', {
       const data = await response.json()
       if (data.success) {
         this.isAuthenticated = true
-        // document.cookie = `csrftoken=${data.csrfToken};SameSite=None;secure;Domain=itter.pythonanywhere.com`
-        // document.cookie = `sessionid=${data.sessionid};SameSite=None;secure;Domain=itter.pythonanywhere.com`
         console.log(`data is \n ${data}`)
         console.log(data.csrfToken, data.sessionid)
         this.saveState()
@@ -77,6 +76,7 @@ export const useAuthStore = defineStore('auth', {
      * @throws {Error} If the request fails.
      */
     async logout(router = null) {
+      this.setCsrfToken()
       try {
         const response = await fetch('https://itter.pythonanywhere.com/api/logout', {
           method: 'POST',
@@ -105,6 +105,7 @@ export const useAuthStore = defineStore('auth', {
      * @throws {Error} If the request fails.
      */
     async fetchUser() {
+      this.setCsrfToken()
       try {
         const response = await fetch('https://itter.pythonanywhere.com/api/user', {
           credentials: 'include',

@@ -5,7 +5,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['itter.pythonanywhere.com', 'aws-0-us-east-1.pooler.supabase.com', 'codecooker1.github.io']
 
 CORS_ALLOWED_ORIGINS = ["https://codecooker1.github.io", "https://itter.pythonanywhere.com"]  # We add your frontend URL here.
-CORS_ORIGIN_WHITELIST = ['https://codecooker1.github.io', "https://itter.pythonanywhere.com"]
 CSRF_TRUSTED_ORIGINS = ["https://codecooker1.github.io", "https://itter.pythonanywhere.com"]  # We add your frontend URL here.
 SESSION_COOKIE_DOMAIN="codecooker1.github.io"
 CSRF_COOKIE_DOMAIN = "codecooker1.github.io"
@@ -17,6 +16,19 @@ CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_HTTPONLY = False
 CSRF_COOKIE_PARTITIONED = True
 CORS_ALLOWS_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+"accept",
+"accept-encoding",
+"authorization",
+"content-type",
+"dnt",
+"origin",
+"user-agent",
+"x-csrftoken",
+"x-requested-with",
+"sessionid",
+"set-cookie",
+] 
 
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_PRELOAD = True

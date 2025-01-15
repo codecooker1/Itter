@@ -18,6 +18,8 @@ class CookiePartitioningMiddleware(MiddlewareMixin):
         ):
             if cookie := response.cookies.get(name):
                 cookie["Partitioned"] = True
+                
+        response["Access-Control-Allow-Origin"] = "https://codecooker1.github.io"
 
         return response
     

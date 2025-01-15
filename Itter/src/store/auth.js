@@ -98,6 +98,7 @@ export const useAuthStore = defineStore('auth', {
         throw error
       }
     },
+    
 
     /**
      * Fetches the user data from the server and updates the state.

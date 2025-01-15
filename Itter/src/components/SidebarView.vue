@@ -5,7 +5,8 @@ import IconProfile from './icons/IconProfile.vue'
 import IconHome from './icons/IconHome.vue'
 import IconCheck from './icons/IconCheck.vue'
 import IconBell from './icons/IconBell.vue'
-import IconClose from './icons/IconClose.vue'
+import IconLogout from './icons/LogoutIcon.vue'
+import PenIcon from './icons/PenIcon.vue'
 import { useAuthStore } from '@/store/auth.js'
 import { useRouter } from 'vue-router'
 
@@ -19,6 +20,7 @@ const logout = async () => {
     console.error(error)
   }
 }
+
 </script>
 
 <template>
@@ -65,10 +67,20 @@ const logout = async () => {
                 <IconCheck />
               </template>
             </SidebarButton>
+            </li>
+          <li>
             <SidebarButton link="" @click="logout">
-              Logout
+Create Post
               <template #icon>
-                <IconClose />
+                <PenIcon/>
+              </template>
+            </SidebarButton>
+          </li>
+          <li>
+            <SidebarButton link="" @click="logout">
+              Logout/Login
+              <template #icon>
+                <IconLogout />
               </template>
             </SidebarButton>
           </li>

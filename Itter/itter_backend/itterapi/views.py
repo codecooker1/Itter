@@ -34,23 +34,22 @@ def default_index(request):
     return JsonResponse({"message":"Hey site is working, maybe"})
 
 def create_user_and_profile(request):
-    """
-    Creates a new user and profile from JSON data in the request body.
 
-    Example of request body:
-    {
-        "username": "johnDoe",
-        "email": "john@example.com",
-        "password": "mySecretPassword",
-        "bio": "I am a software engineer.",
-        "profile_image": "https://example.com/johndoe.jpg"
-    }
-
-    Returns a JSON response with a success message and HTTP status 201 if the user and profile are created successfully.
-    Returns a JSON response with form errors and HTTP status 400 if the request body contains invalid data.
-    Returns a JSON response with an error message and HTTP status 400 if the request body is not valid JSON.
-    Returns a JSON response with an error message and HTTP status 405 if the request method is not POST.
     """
+    Handles the creation of a new user and associated user profile.
+
+    This view accepts only POST requests with JSON-encoded data. It initializes
+    a UserProfileForm with the provided data, validates it, and saves a new 
+    user profile. If the form is valid, it returns a JSON response with a success 
+    message. If the form is invalid, it returns a JSON response with error details.
+
+    Parameters:
+    request (HttpRequest): The HTTP request object containing JSON data.
+
+    Returns:
+    JsonResponse: A JSON response with a success message or error details.
+    """
+
     if request.method == 'POST':
         try:
             # Parse JSON data
@@ -160,7 +159,8 @@ def user(request):
                 'last_name': request.user.last_name,
                 'email': request.user.email,
                 'profile_image': request.user.userprofile.profile_image,
-                'bio': request.user.userprofile.bio
+                'bio': request.user.userprofile.bio,
+                'following': request.user.userprofile.following.all(),
             }
         )
     return JsonResponse(
@@ -176,6 +176,7 @@ def get_feed(request):
             'content': post.content,
             'image': post.media_url,
             'created_at': post.created_at,
+            'likes': post.likes(),
             # 'updated_at': post.updated_at,
             'user': {
                 'username': post.user.username,

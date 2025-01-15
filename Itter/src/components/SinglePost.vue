@@ -18,7 +18,7 @@
     <div class="action-bar">
       <div class="action-btn">
         <LikeButton />
-        <p>123</p>
+        <p>{{ likes }}</p>
       </div>
       <p>Repost</p>
       <p>Share</p>
@@ -30,7 +30,7 @@
 <script setup>
 import ProfileIcon from './icons/ProfileIcon.vue'
 import LikeButton from './LikeButton.vue'
-import { ref, onActivated, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 // import { useAuthStore } from '@/store/auth.js'
 
 const profile_name = ref('default_name')
@@ -38,6 +38,7 @@ const profile_handle = ref('default_handle')
 const profilePictureUrl = ref('')
 const content = ref('')
 const media = ref('')
+const likes = ref(0)
 
 // const authstore = useAuthStore()
 
@@ -52,14 +53,10 @@ async function getPostContent() {
   profilePictureUrl.value = props.post.user.profile_image
   content.value = props.post.content
   media.value = props.post.image
+  likes.value = props.post.likes
 }
 
 onMounted(async () => {
-  getPostContent()
-})
-
-onActivated(() => {
-  console.log('activated')
   getPostContent()
 })
 </script>

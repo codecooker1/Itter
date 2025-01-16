@@ -185,8 +185,8 @@ def get_feed(request):
                 'username': user_dict['username'],
                 'first_name': user_dict['first_name'],
                 'last_name': user_dict['last_name'],
-                'profile_image': user_dict['userprofile']['profile_image'],
-                'bio': user_dict['userprofile']['bio']
+                'profile_image': user.userprofile.profile_image,
+                'bio': user.userprofile.bio
             }
         }
         post_data.append(post_dict)

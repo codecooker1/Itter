@@ -184,8 +184,8 @@ def get_feed(request):
                 'username': user.username,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
-                'profile_image': user.userprofile.profile_image,
-                'bio': user.userprofile.bio
+                'profile_image': post.user.userprofile.profile_image,
+                'bio': post.user.userprofile.bio
             }
         }
         post_data.append(post_dict)

@@ -167,25 +167,23 @@ def user(request):
         {'message': 'Not logged in'}, status=401
     )
     
+from django.forms.models import model_to_dict
+
 def get_feed(request):
-    posts = Post.objects.all().order_by('-created_at')
+    posts = Post.objects.values('post_id', 'content', 'media_url', 'created_at', 'likes', 'user_id')
     post_data = []
     for post in posts:
-        post_data.append({
-            'post_id': post.post_id,
-            'content': post.content,
-            'image': post.media_url,
-            'created_at': post.created_at,
-            'likes': post.likes,
-            # 'updated_at': post.updated_at,
-            'user': {
-                'username': post.user.username,
-                'first_name': post.user.first_name,
-                'last_name': post.user.last_name,
-                'profile_image': post.user.userprofile.profile_image,
-                'bio': post.user.userprofile.bio
-            }
-        })
+        user = User.objects.get(id=post['user_id'])
+        user_dict = model_to_dict(user)
+        post_dict = {
+            'post_id': post['post_id'],
+            'content': post['content'],
+            'image': post['media_url'],
+            'created_at': post['created_at'],
+            'likes': post['likes'],
+            'user': user_dict
+        }
+        post_data.append(post_dict)
     return JsonResponse({'posts': post_data})
     
 def get_post_details(request, pk):

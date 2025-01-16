@@ -178,7 +178,7 @@ def get_feed(request):
             'content': post.content,
             'image': post.media_url,
             'created_at': post.created_at,
-            # 'likes': post.likes,
+            'likes': post.likes.all().count(),
             'user': {
                 'username': post.user.username,
                 'first_name': post.user.first_name,

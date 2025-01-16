@@ -170,7 +170,7 @@ def user(request):
 from django.forms.models import model_to_dict
 
 def get_feed(request):
-    posts = Post.objects.all().order_by('-created_at')
+    posts = Post.objects.all()
     post_data = []
     for post in posts:
         post_dict = {

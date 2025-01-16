@@ -170,17 +170,17 @@ def user(request):
 from django.forms.models import model_to_dict
 
 def get_feed(request):
-    posts = Post.objects.values('post_id', 'content', 'media_url', 'created_at', 'likes', 'user_id')
+    posts = Post.objects.all().order_by('-created_at')
     post_data = []
     for post in posts:
         user = User.objects.get(id=post['user_id'])
         user_dict = model_to_dict(user)
         post_dict = {
-            'post_id': post['post_id'],
-            'content': post['content'],
-            'image': post['media_url'],
-            'created_at': post['created_at'],
-            'likes': post['likes'],
+            'post_id': post.post_id,
+            'content': post.content,
+            'image': post.media_url,
+            'created_at': post.created_at,
+            'likes': post.likes,
             'user': {
                 'username': user_dict['username'],
                 'first_name': user_dict['first_name'],

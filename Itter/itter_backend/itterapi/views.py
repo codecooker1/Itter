@@ -183,8 +183,8 @@ def get_feed(request):
                 'username': post.user.username,
                 'first_name': post.user.first_name,
                 'last_name': post.user.last_name,
-                'profile_image': post,
-                'bio': post
+                'profile_image': UserProfile.objects.get(user=post.user).profile_image,
+                'bio': UserProfile.objects.get(user=post.user).bio
             }
         }
         post_data.append(post_dict)

@@ -20,9 +20,9 @@
         <LikeButton />
         <p>{{ likes }}</p>
       </div>
-      <p>Repost</p>
+      <!-- <p>Repost</p>
       <p>Share</p>
-      <p>Comment</p>
+      <p>Comment</p> -->
     </div>
   </article>
 </template>

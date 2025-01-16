@@ -1,13 +1,11 @@
 from .base import *
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['itter.pythonanywhere.com', 'aws-0-us-east-1.pooler.supabase.com', 'codecooker1.github.io']
 
 CORS_ALLOWED_ORIGINS = ["https://codecooker1.github.io", "https://itter.pythonanywhere.com"]  # We add your frontend URL here.
 CSRF_TRUSTED_ORIGINS = ["https://codecooker1.github.io", "https://itter.pythonanywhere.com"]  # We add your frontend URL here.
-# SESSION_COOKIE_DOMAIN = "codecooker1.github.io"
-# CSRF_COOKIE_DOMAIN = "codecooker1.github.io"
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SAMESITE = 'None'

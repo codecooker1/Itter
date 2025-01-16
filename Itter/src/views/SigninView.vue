@@ -30,6 +30,7 @@
         <button class="sbutton" type="submit">Login</button>
       </form>
       <p v-if="error">{{ error }}</p>
+      <p>Don't have an account? <router-link :to="{ name: 'signup' }">Register</router-link></p>
     </div>
   </div>
 </template>

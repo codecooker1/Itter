@@ -174,7 +174,6 @@ def get_feed(request):
     post_data = []
     for post in posts:
         user = post.user
-        user_dict = model_to_dict(user)
         post_dict = {
             'post_id': post.post_id,
             'content': post.content,
@@ -182,11 +181,11 @@ def get_feed(request):
             'created_at': post.created_at,
             'likes': post.likes,
             'user': {
-                'username': user_dict['username'],
-                'first_name': user_dict['first_name'],
-                'last_name': user_dict['last_name'],
-                'profile_image': user.userprofile.profile_image,
-                'bio': user.userprofile.bio
+                'username': user.username,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'profile_image': user.userprofile.get().profile_image,
+                'bio': user.userprofile.get().bio
             }
         }
         post_data.append(post_dict)

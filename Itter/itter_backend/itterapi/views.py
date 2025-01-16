@@ -181,7 +181,13 @@ def get_feed(request):
             'image': post['media_url'],
             'created_at': post['created_at'],
             'likes': post['likes'],
-            'user': user_dict
+            'user': {
+                'username': user_dict['username'],
+                'first_name': user_dict['first_name'],
+                'last_name': user_dict['last_name'],
+                'profile_image': user_dict['userprofile']['profile_image'],
+                'bio': user_dict['userprofile']['bio']
+            }
         }
         post_data.append(post_dict)
     return JsonResponse({'posts': post_data})

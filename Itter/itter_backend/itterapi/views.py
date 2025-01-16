@@ -173,7 +173,7 @@ def get_feed(request):
     posts = Post.objects.all().order_by('-created_at')
     post_data = []
     for post in posts:
-        user = User.objects.get(id=post['user_id'])
+        user = post.user
         user_dict = model_to_dict(user)
         post_dict = {
             'post_id': post.post_id,

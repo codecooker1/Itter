@@ -178,14 +178,13 @@ def get_feed(request):
             'content': post.content,
             'image': post.media_url,
             'created_at': post.created_at,
-            'likes': post.likes,
+            # 'likes': post.likes,
             'user': {
                 'username': post.user.username,
                 'first_name': post.user.first_name,
                 'last_name': post.user.last_name,
                 'profile_image': post.user.userprofile.profile_image,
                 'bio': post.user.userprofile.bio
-            
             }
         }
         post_data.append(post_dict)

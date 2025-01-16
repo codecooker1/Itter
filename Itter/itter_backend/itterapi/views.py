@@ -173,7 +173,6 @@ def get_feed(request):
     posts = Post.objects.all().order_by('-created_at')
     post_data = []
     for post in posts:
-        user = post.user
         post_dict = {
             'post_id': post.post_id,
             'content': post.content,
@@ -181,11 +180,11 @@ def get_feed(request):
             'created_at': post.created_at,
             'likes': post.likes,
             'user': {
-                'username': user.username,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'profile_image': post.user,
-                'bio': post.user
+                'username': post.user.username,
+                'first_name': post.user.first_name,
+                'last_name': post.user.last_name,
+                'profile_image': post.user.userprofile.profile_image,
+                'bio': post.user.userprofile.bio
             }
         }
         post_data.append(post_dict)

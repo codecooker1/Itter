@@ -22,7 +22,7 @@
   </router-link>
 </template>
 
-<style>
+<style scoped>
 @media screen and (max-width: 768px) {
   .btn-text {
     visibility: hidden;

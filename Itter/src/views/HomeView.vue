@@ -12,19 +12,23 @@
     </main>
     <div class="sidebar-wrapper">
       <SidebarView />
+      <button class="sbutton" @click="createPost = !createPost">Create Post</button>
     </div>
   </div>
+  <CreatePost v-if="createPost" />
 </template>
 
 <script setup>
 import SinglePost from '@/components/SinglePost.vue'
 import SidebarView from '@/components/SidebarView.vue'
 import UserSidebar from '@/components/UserSidebar.vue'
+import CreatePost from '@/components/CreatePost.vue';
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/store/auth';
 
 const posts = ref([])
 const authStore = useAuthStore()
+const createPost = ref(false)
 
 onMounted(async () => {
   const response = await fetch('https://itter.pythonanywhere.com/api/feed/', {

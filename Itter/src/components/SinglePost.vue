@@ -14,7 +14,8 @@
         <br>
       </slot>
     </div>
-    <div v-if="media" class="media-gallery"><image :src="media" /></div>
+    <div v-if="media" class="media-gallery"><img :src="media" alt="Unable to load Image" /></div>
+    <div class="h-2"></div>
     <div class="action-bar">
       <div class="action-btn">
         <LikeButton />

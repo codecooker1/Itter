@@ -1,7 +1,7 @@
 <template>
   <div id="create-post-modal">
-    <div class="create-post-background">
-      <div class="create-post">
+    <div class="create-post-background" @click="$emit('close')">
+      <div class="create-post" @click.stop>
         <h2>Create a Post</h2>
         <form @submit.prevent="createPost">
           <label for="message" class="block mb-2 text-sm font-medium text-white"></label>
@@ -16,13 +16,15 @@
 
 <script setup>
 import IconLoading from '@/components/icons/IconLoading.vue';
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 import { useAuthStore } from '@/store/auth.js';
 
 const authStore = useAuthStore()
 const postContent = ref('')
 const error = ref(null)
 const isPosting = ref(false)
+
+defineEmits(['close']);
 
 async function createPost() {
   isPosting.value = true

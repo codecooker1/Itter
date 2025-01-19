@@ -8,23 +8,24 @@
       <div class="post" v-for="post in posts" :key="post.ipost_id">
         <SinglePost :post="post" />
       </div>
-      
+      <button class="create-post-button" @click="createPost = !createPost"><PenIcon /></button>
     </main>
     <div class="sidebar-wrapper">
       <SidebarView />
-      <button class="sbutton" @click="createPost = !createPost">Create Post</button>
     </div>
   </div>
-  <CreatePost v-if="createPost" />
+  <CreatePost v-if="createPost" @close="createPost = false" />
 </template>
 
 <script setup>
 import SinglePost from '@/components/SinglePost.vue'
 import SidebarView from '@/components/SidebarView.vue'
 import UserSidebar from '@/components/UserSidebar.vue'
-import CreatePost from '@/components/CreatePost.vue';
+import CreatePost from '@/components/CreatePost.vue'
+// import IconQuil from '@/components/icons/IconQuil.vue'
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/store/auth';
+import PenIcon from '@/components/icons/PenIcon.vue'
 
 const posts = ref([])
 const authStore = useAuthStore()
@@ -47,6 +48,17 @@ onMounted(async () => {
 </script>
 
 <style>
+
+.create-post-button {
+  border-radius: 50%;
+  background-color: #5286ca;
+  float: right;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 100;
+}
+
 .sidebar-wrapper {
   min-width: 200px;
   height: fit-content;

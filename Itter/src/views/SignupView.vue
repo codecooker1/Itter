@@ -5,90 +5,37 @@
       <form @submit.prevent="register" class="form">
         <div class="textInputWrapper">
           <label for="firstname">First Name</label>
-          <input
-            v-model="firstname"
-            placeholder="First Name"
-            type="text"
-            id="firstname"
-            name="firstname"
-            class="textInput"
-            required
-          />
+          <input v-model="firstname" placeholder="First Name" type="text" id="firstname" name="firstname"
+            class="textInput" required />
         </div>
         <div class="textInputWrapper">
           <label for="lastname">Last Name</label>
-          <input
-            v-model="lastname"
-            placeholder="Last name"
-            type="text"
-            id="lastname"
-            name="lastname"
-            class="textInput"
-            required
-          />
+          <input v-model="lastname" placeholder="Last name" type="text" id="lastname" name="lastname" class="textInput"
+            required />
         </div>
         <div class="textInputWrapper">
           <label for="username">Username</label>
-          <input
-            v-model="username"
-            placeholder="Username"
-            id="username"
-            type="text"
-            name="username"
-            class="textInput"
-            required
-          />
+          <input v-model="username" placeholder="Username" id="username" type="text" name="username" class="textInput"
+            required />
         </div>
         <div class="textInputWrapper">
           <label for="email">E-mail</label>
-          <input
-            v-model="email"
-            placeholder="E-mail"
-            type="email"
-            id="email"
-            name="email"
-            class="textInput"
-            required
-          />
+          <input v-model="email" placeholder="E-mail" type="email" id="email" name="email" class="textInput" required />
         </div>
         <div class="textInputWrapper">
           <label for="password">Password</label>
-          <input
-            v-model="password"
-            placeholder="Password"
-            id="password"
-            type="password"
-            name="password"
-            class="textInput"
-            required
-          />
+          <input v-model="password" placeholder="Password" id="password" type="password" name="password"
+            class="textInput" required />
         </div>
         <div class="textInputWrapper">
           <label for="bio">Tell something about yourself</label>
-          <input
-            v-model="bio"
-            placeholder="Tell about yourself"
-            id="bio"
-            type="textbox"
-            name="bio"
-            class="textInput"
-            required
-          />
+          <input v-model="bio" placeholder="Tell about yourself" id="bio" type="textbox" name="bio" class="textInput"
+            required />
         </div>
         <div class="textInputWrapper">
           <label for="pi">Profile Image</label>
-          <input
-            style="padding: 0px"
-            @change="handleFileUpload($event)"
-            placeholder="profile_image"
-            id="pi"
-            type="file"
-            name="profile_image"
-            accept="image/png, image/jpeg, image/jpg, image/webp"
-            class="textInput"
-            required
-            capture
-          />
+          <input style="padding: 0px" @change="handleFileUpload($event)" placeholder="profile_image" id="pi" type="file"
+            name="profile_image" accept="image/*" class="textInput" required capture />
           <!-- <img v-if="this.imageUrl" :src="this.imageUrl" alt="Selected Image" style="max-width: 200px; max-height: 200px; margin-top: 10px;"> -->
           <p>{{ uploadError }}</p>
         </div>
@@ -402,13 +349,8 @@ export default {
       this.uploadSuccess = null
 
       if (this.selectedFile) {
-        if (
-          !this.selectedFile.type.startsWith('image/png') &&
-          !this.selectedFile.type.startsWith('image/jpeg') &&
-          !this.selectedFile.type.startsWith('image/jpg') &&
-          !this.selectedFile.type.startsWith('image/webp')
-        ) {
-          this.uploadError = 'Please select a PNG or JPEG image.'
+        if (!this.selectedFile.type.startsWith('image/')) {
+          this.uploadError = 'Please select a Proper image.'
           this.selectedFile = null
           this.imageUrl = null
           return
@@ -418,7 +360,26 @@ export default {
         this.imageUrl = null
       }
       console.log(this.imageUrl)
-    }
+      this.convertImage()
+      console.log(this.profile_image)
+    },
+    convertImage() {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const img = new Image()
+        img.src = reader.result
+        img.onload = () => {
+          const canvas = document.createElement('canvas')
+          canvas.width = img.width
+          canvas.height = img.height
+          const ctx = canvas.getContext('2d')
+          ctx.drawImage(img, 0, 0)
+          const dataUrl = canvas.toDataURL('image/webp')
+          this.profile_image = dataUrl
+        }
+      }
+      reader.readAsDataURL(this.selectedFile)
+    },
   }
 }
 </script>

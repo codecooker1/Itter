@@ -1,10 +1,10 @@
 <template>
   <svg
-    class="w-[36px] h-[36px]"
+    class="w-[46px] h-[46px]"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="46"
+    height="46"
     fill="none"
     viewBox="0 0 24 24"
   >

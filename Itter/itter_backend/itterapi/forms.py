@@ -57,6 +57,22 @@ class UserProfileForm(forms.ModelForm):
         return profile
 
 class PostForm(forms.ModelForm):
+    media_url = forms.URLField(required=False)
     class Meta:
         model = Post
         fields = ('content',)
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and hasattr(self.instance, 'user'):
+            self.fields['media_url'].initial = self.instance.media_url
+            
+    def save(self):
+        post = super().save(commit=False)
+        post.created_at = timezone.now()
+        if hasattr(post, 'media_url'):
+            post.media_url = self.cleaned_data['media_url']
+        else:
+            post.media_url = '#'
+        post.save()
+        return post

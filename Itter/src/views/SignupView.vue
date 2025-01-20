@@ -238,6 +238,7 @@
 import { useAuthStore } from '@/store/auth'
 import { createClient } from '@supabase/supabase-js'
 import { nanoid } from 'nanoid'
+import { convertImage } from '@/store/helper';
 
 export default {
   data() {
@@ -254,7 +255,6 @@ export default {
       selectedFile: null,
       supabase: null,
       uploadError: '',
-      imageUrl: '',
       authStore: ''
     }
   },
@@ -276,9 +276,10 @@ export default {
      * @return {Promise<void>}
      */
     async uploadFile(file) {
+      const fileToUpload = await convertImage(file)
       const { data, error } = await this.supabase.storage
         .from('profilepics')
-        .upload('' + nanoid(), file)
+        .upload('/', '' + nanoid(), fileToUpload, {contentType: fileToUpload.type})
       if (error) {
         console.error('Error uploading file:', error)
       } else {
@@ -288,16 +289,6 @@ export default {
         console.log('Public URL:', this.profile_image)
       }
     },
-    /**
-     * Registers a new user.
-     *
-     * Submits a POST request to the create-user API endpoint with the
-     * registration data. If the response is successful, sets a success message
-     * and redirects to the Signin page after a brief delay. Otherwise, sets an
-     * error message.
-     *
-     * @return {Promise<void>}
-     */
     async register() {
       try {
         await this.uploadFile(this.selectedFile)
@@ -333,18 +324,9 @@ export default {
         this.error = 'An error occurred during registration: ' + err
       }
     },
-    /**
-     * Handles the file upload event from the file input field.
-     *
-     * Updates the selectedFile data property with the uploaded file and
-     * sets the imageUrl to the object URL of the file. If the file is not a
-     * PNG or JPEG image, sets an error message and resets the selectedFile
-     * and imageUrl properties.
-     *
-     * @param {Event} event - The event object from the file input field
-     */
-    handleFileUpload(event) {
+    async handleFileUpload(event) {
       this.selectedFile = event.target.files[0]
+      console.log(this.selectedFile)
       this.uploadError = null
       this.uploadSuccess = null
 
@@ -359,26 +341,6 @@ export default {
       } else {
         this.imageUrl = null
       }
-      console.log(this.imageUrl)
-      this.convertImage()
-      console.log(this.profile_image)
-    },
-    convertImage() {
-      const reader = new FileReader()
-      reader.onload = () => {
-        const img = new Image()
-        img.src = reader.result
-        img.onload = () => {
-          const canvas = document.createElement('canvas')
-          canvas.width = img.width
-          canvas.height = img.height
-          const ctx = canvas.getContext('2d')
-          ctx.drawImage(img, 0, 0)
-          const dataUrl = canvas.toDataURL('image/webp')
-          this.profile_image = dataUrl
-        }
-      }
-      reader.readAsDataURL(this.selectedFile)
     },
   }
 }

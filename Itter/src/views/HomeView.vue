@@ -51,12 +51,20 @@ onMounted(async () => {
 
 .create-post-button {
   border-radius: 50%;
-  background-color: #5286ca;
+  background-color: #386096;
   float: right;
   position: fixed;
   right: 20px;
   bottom: 20px;
   z-index: 100;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  /* visibility: hidden; */
 }
 
 .sidebar-wrapper {
@@ -102,6 +110,10 @@ onMounted(async () => {
     display: none;
     visibility: hidden;
   }
+
+  .create-post-button {
+    visibility: visible;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -111,6 +123,10 @@ onMounted(async () => {
 
   .sidebar-wrapper {
     min-width: 55px;
+  }
+
+  .create-post-button {
+    visibility: visible;
   }
 }
 

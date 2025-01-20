@@ -64,7 +64,7 @@ class PostForm(forms.ModelForm):
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance and hasattr(self.instance, 'user'):
+        if self.instance and hasattr(self.instance, 'media_url'):
             self.fields['media_url'].initial = self.instance.media_url
             
     def save(self):

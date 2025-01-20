@@ -33,6 +33,7 @@ onBeforeMount(async () => {
 
 // Watch for route changes and set loading state
 watchEffect(() => {
+  // if(router.currentRoute.value.path === '/signin' || router.currentRoute.value.path === '/signup')
   isLoading.value = true // Set loading to true before route change completes
   router.isReady().then(() => {
     isLoading.value = false // Set loading to false after route change completes

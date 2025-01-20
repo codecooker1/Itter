@@ -68,7 +68,7 @@ async function uploadFile(file) {
 async function createPost() {
   isPosting.value = true
   authStore.setCsrfToken()
-  if(media.value)
+  if(media.value !== null)
     await uploadFile(media.value)
   const response = await fetch('https://itter.pythonanywhere.com/api/create/post', {
     method: 'POST',

@@ -53,6 +53,7 @@ onMounted(() => {
 async function uploadFile(file) {
   console.log(`uploading file`)
   const processedFile = await convertImage(file)
+  console.log(`file: ${processedFile}`)
   console.log(`usernamr: ${authStore.user.username}`)
   const { data, error } = await supabase.value.storage
     .from('ItterMedia')
@@ -63,7 +64,7 @@ async function uploadFile(file) {
     error.value = error
   } else {
     console.log('File uploaded successfully:', data)
-    media_url.value = await this.supabase.storage.from('profilepics').getPublicUrl(data.path).data.publicUrl
+    media_url.value = await supabase.value.storage.from('ItterMedia').getPublicUrl(data.path).data.publicUrl
     console.log('Public URL:', media_url.value)
   }
 }
@@ -112,7 +113,7 @@ async function handleFileUpload(event) {
       selectedFile.value = null
       return
     }
-    imageUrl = URL.createObjectURL(this.selectedFile)
+    imageUrl = URL.createObjectURL(selectedFile.value)
   } else {
     imageUrl = null
   }

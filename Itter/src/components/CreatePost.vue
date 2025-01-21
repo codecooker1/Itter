@@ -57,7 +57,7 @@ async function uploadFile(file) {
   console.log(`usernamr: ${authStore.user.username}`)
   const { data, error } = await supabase.value.storage
     .from('ItterMedia')
-    .upload("/", '' + nanoid(), processedFile)
+    .upload("/" + authStore.user.username + "/" + nanoid(), processedFile, {contentType: "image/webp"})
 
   if (error) {
     console.error('Error uploading file:', error)

@@ -1,5 +1,5 @@
 <template>
-    <div class="loader">
+<div class="loader">
     <div class="bar1"></div>
     <div class="bar2"></div>
     <div class="bar3"></div>
@@ -19,8 +19,8 @@
 /* From Uiverse.io by david-mohseni */ 
 .loader {
   position: relative;
-  width: 54px;
-  height: 54px;
+  width: 8px;
+  height: 8px;
   border-radius: 10px;
 }
 

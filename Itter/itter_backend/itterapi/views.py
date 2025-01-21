@@ -103,10 +103,9 @@ def create_post(request):
 
     if request.method == 'POST':
         data = json.loads(request.body)
-        form = PostForm(data)
+        form = PostForm(data, user=request.user)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
+            post = form.save()
             post.save()
             return JsonResponse({'message': 'Post created successfully!', "post_id": post.post_id}, status=201)
         else:

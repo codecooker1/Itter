@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 /* From Uiverse.io by alexruix */
 .flexcont {
   display: flex;

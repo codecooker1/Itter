@@ -63,13 +63,15 @@ class PostForm(forms.ModelForm):
         fields = ('content',)
         
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        self.user = kwargs.pop('user', None)
+        super(PostForm, self).__init__(*args, **kwargs)
         if self.instance and hasattr(self.instance, 'media_url'):
             self.fields['media_url'].initial = self.instance.media_url
             
     def save(self):
         post = super().save(commit=False)
         post.created_at = timezone.now()
+        post.user = self.user
         if hasattr(post, 'media_url'):
             post.media_url = self.cleaned_data['media_url']
         else:

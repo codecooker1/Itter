@@ -3,6 +3,7 @@
 
 
 export async function convertImage(imageFile) {
+  console.log('Converting image...')
   const reader = new FileReader()
   reader.readAsDataURL(imageFile)
 
@@ -28,7 +29,8 @@ export async function convertImage(imageFile) {
   ctx.drawImage(img, 0, 0)
   const dataUrl = canvas.toDataURL('image/webp')
   const blob = await fetch(dataUrl).then(response => response.blob())
-  // const objectUrl = URL.createObjectURL(blob)
+  const objectUrl = URL.createObjectURL(blob)
+  console.log(`done converting image to webp: ${objectUrl}`)
   return blob
 }
 

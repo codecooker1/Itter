@@ -8,9 +8,11 @@
           <textarea v-model="postContent" placeholder="What's on your mind?"
             class="block p-2.5 w-full text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
             rows="5" required></textarea>
-          <label for="pi"><i class="fa fa-cloud-upload"></i> Upload Image</label>
-          <input style="padding: 0px" @change="handleFileUpload($event)" placeholder="profile_image" id="pi" type="file"
-            name="profile_image" accept="image/*" class="textInput" capture>
+          <label for="pi-c"><i class="fa fa-cloud-upload" @click="triggerFileInput">
+
+          </i> <span>Upload Image</span>
+          <input style="padding: 0px" @change="handleFileUpload($event)" placeholder="profile_image" id="pi-c" type="file"
+            name="profile_image" accept="image/*" class="textInput" capture></label>
 
           <button class="sbutton" type="submit" name="submit">
             <IconLoading v-if="isPosting" /> Post
@@ -36,7 +38,7 @@ const postContent = ref('')
 const error = ref(null)
 const isPosting = ref(false)
 const supabase = ref(null)
-const media = ref(null)
+const selectedFile = ref(null)
 const media_url = ref('')
 
 defineEmits(['close']);
@@ -49,27 +51,30 @@ onMounted(() => {
 })
 
 async function uploadFile(file) {
+  console.log(`uploading file`)
   const processedFile = await convertImage(file)
-
+  console.log(`usernamr: ${authStore.user.username}`)
   const { data, error } = await supabase.value.storage
     .from('ItterMedia')
-    .upload(`/${authStore.user.username}/`, '' + nanoid(), processedFile)
+    .upload("/", '' + nanoid(), processedFile)
 
-    if (error) {
-        console.error('Error uploading file:', error)
-        error.value = error
-    } else {
-      console.log('File uploaded successfully:', data)
-      media_url.value = await this.supabase.storage.from('profilepics').getPublicUrl(data.path).data.publicUrl
-      console.log('Public URL:', media_url.value)
-    }
+  if (error) {
+    console.error('Error uploading file:', error)
+    error.value = error
+  } else {
+    console.log('File uploaded successfully:', data)
+    media_url.value = await this.supabase.storage.from('profilepics').getPublicUrl(data.path).data.publicUrl
+    console.log('Public URL:', media_url.value)
+  }
 }
 
 async function createPost() {
   isPosting.value = true
   authStore.setCsrfToken()
-  if(media.value !== null)
-    await uploadFile(media.value)
+  if (selectedFile.value !== null)
+    await uploadFile(selectedFile.value)
+  else
+    console.log(`no file selected`)
   const response = await fetch('https://itter.pythonanywhere.com/api/create/post', {
     method: 'POST',
     credentials: 'include',
@@ -99,9 +104,24 @@ async function createPost() {
 }
 
 async function handleFileUpload(event) {
-  media.value = event.target.files[0]
+  selectedFile.value = event.target.files[0]
+  var imageUrl = null
+  if (selectedFile.value) {
+    if (!selectedFile.value.type.startsWith('image/')) {
+      error.value = 'Please select a Proper image.'
+      selectedFile.value = null
+      return
+    }
+    imageUrl = URL.createObjectURL(this.selectedFile)
+  } else {
+    imageUrl = null
+  }
+  console.log(`file: ${selectedFile.value}\nlink: ${imageUrl}`)
 }
 
+function triggerFileInput(){
+  document.getElementById('pi-c').click()
+}
 </script>
 
 <style lang="css" scoped>
@@ -131,7 +151,7 @@ async function handleFileUpload(event) {
   font-size: 1.6rem;
 }
 
-.create-post > form {
+.create-post>form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -165,7 +185,7 @@ input[type="file"] {
 
 #pi {
   border: 1px solid #2e3440;
-  /* display: inline-block; */
+  display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
   background-color: #232831;

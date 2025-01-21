@@ -279,7 +279,7 @@ export default {
       const fileToUpload = await convertImage(file)
       const { data, error } = await this.supabase.storage
         .from('profilepics')
-        .upload('' + nanoid(), fileToUpload, {contentType: fileToUpload.type})
+        .upload('/' + nanoid(), fileToUpload, {contentType: fileToUpload.type})
       if (error) {
         console.error('Error uploading file:', error)
       } else {

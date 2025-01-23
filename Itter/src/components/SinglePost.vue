@@ -49,7 +49,7 @@ const props = defineProps(['post_id'])
 
 async function getPostContent() {
   console.log(props.post_id)
-  const request = await fetch(`https://itter.pythonanywhere.com/api/get/post/${props.post_id}`)
+  const request = await fetch(`https://itter.pythonanywhere.com/api/get/post/detail/${props.post_id}`)
   const post = request.json()
   profile_name.value = post.user.first_name + ' ' + props.post.user.last_name
   profile_handle.value = post.user.username
@@ -65,7 +65,7 @@ onMounted(async () => {
 
 async function likePost() {
   console.log(props.post.post_id) 
-  const response = await fetch(`https://itter.pythonanywhere.com/api/like/post/detail/${props.post_id}`, {
+  const response = await fetch(`https://itter.pythonanywhere.com/api/like/post/${props.post_id}`, {
       method: "POST",
       credentials: "include",
       headers: {

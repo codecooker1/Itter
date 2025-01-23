@@ -180,7 +180,7 @@ def get_feed(request):
     
 def get_post_details(request, pk):
     try:
-        post = Post.objects.get(pk=pk)
+        post = Post.objects.get(post_id=pk)
         return JsonResponse({
             'post_id': post.post_id,
             'user_id': post.user_id,

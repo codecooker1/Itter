@@ -162,6 +162,20 @@ function triggerFileInput(){
   font-size: 1rem;
 }
 
+.sbutton {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: #4c566a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
 .title {
   font-weight: bold;
 }

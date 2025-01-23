@@ -174,17 +174,6 @@ def get_feed(request):
     for post in posts:
         post_dict = {
             'post_id': post.post_id,
-            'content': post.content,
-            'image': post.media_url,
-            'created_at': post.created_at,
-            'likes': post.likes.all().count(),
-            'user': {
-                'username': post.user.username,
-                'first_name': post.user.first_name,
-                'last_name': post.user.last_name,
-                'profile_image': post.user.userprofile.profile_image,
-                'bio': post.user.userprofile.bio
-            }
         }
         post_data.append(post_dict)
     return JsonResponse({'posts': post_data})
@@ -197,6 +186,7 @@ def get_post_details(request, pk):
             'user_id': post.user_id,
             'content': post.content,
             'image': post.image,
+            'likes': post.likes.all().count(),
             'created_at': post.created_at,
             'updated_at': post.updated_at,
             'user': {
@@ -209,6 +199,26 @@ def get_post_details(request, pk):
         })
     except Post.DoesNotExist:
         return JsonResponse({'message': 'Post not found'}, status=404)
+    
+def update_like(request):
+    data = json.loads(request.body)
+    
+    post = Post.objects.get(post_id=data.post_id)
+    
+    if request.method == 'POST' and request.user.is_authenticated:
+        if not Like.objects.get(user=user, post=post):
+            like = Like.objects.create(user=user, post=post)
+            like.save()
+        else:
+            like = Like.objects.get(user=user, post=post)
+            like.delete()
+        return JsonResponse({'message': 'Like updated successfully!'})
+    if request.method == 'GET':
+        if Like.objects.get(post=post):
+            return JsonResponse({'isLikedAlready': True})
+        else:
+            return JsonResponse({'isLikedAlready': False})
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

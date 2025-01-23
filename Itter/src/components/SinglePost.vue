@@ -18,7 +18,7 @@
     <div class="h-2"></div>
     <div class="action-bar">
       <div class="action-btn">
-        <LikeButton />
+        <LikeButton @click="likePost" />
         <p>{{ likes }}</p>
       </div>
       <!-- <p>Repost</p>
@@ -32,7 +32,7 @@
 import ProfileIcon from './icons/ProfileIcon.vue'
 import LikeButton from './LikeButton.vue'
 import { ref, onMounted } from 'vue'
-// import { useAuthStore } from '@/store/auth.js'
+import { useAuthStore } from '@/store/auth.js'
 
 const profile_name = ref('default_name')
 const profile_handle = ref('default_handle')
@@ -41,25 +41,46 @@ const content = ref('')
 const media = ref('')
 const likes = ref(0)
 
-// const authstore = useAuthStore()
+const authstore = useAuthStore()
 
-// const user = ref(null)
+// const user = authstore.user
 
-const props = defineProps(['post'])
+const props = defineProps(['post_id'])
 
 async function getPostContent() {
-  console.log(props.post)
-  profile_name.value = props.post.user.first_name + ' ' + props.post.user.last_name
-  profile_handle.value = props.post.user.username
-  profilePictureUrl.value = props.post.user.profile_image
-  content.value = props.post.content
-  media.value = props.post.image
-  likes.value = props.post.likes
+  console.log(props.post_id)
+  const request = await fetch(`https://itter.pythonanywhere.com/api/get/post/${props.post_id}`)
+  const post = request.json()
+  profile_name.value = post.user.first_name + ' ' + props.post.user.last_name
+  profile_handle.value = post.user.username
+  profilePictureUrl.value = post.user.profile_image
+  content.value = post.content
+  media.value = post.image
+  likes.value = post.likes
 }
 
 onMounted(async () => {
   getPostContent()
 })
+
+async function likePost() {
+  console.log(props.post.post_id) 
+  const response = await fetch(`https://itter.pythonanywhere.com/api/like/post/detail/${props.post_id}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': authstore.csrfToken,
+      },
+      body: JSON.stringify({
+        post_id: props.post_id,
+      }),
+  })
+
+  const data = await response.json()
+
+  console.log(data)
+}
 </script>
 
 <style scoped>
@@ -121,5 +142,9 @@ article {
   flex-direction: row;
   color: red;
   justify-content: space-around;
+}
+
+.media-gallery img {
+  border-radius: 11px;
 }
 </style>

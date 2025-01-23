@@ -39,7 +39,9 @@
           <!-- <img v-if="this.imageUrl" :src="this.imageUrl" alt="Selected Image" style="max-width: 200px; max-height: 200px; margin-top: 10px;"> -->
           <p>{{ uploadError }}</p>
         </div>
-        <button class="sbutton" type="submit">Register</button>
+        <button class="sbutton" type="submit" name="submit">
+          <IconLoading v-if="isRegistering" /> Register
+        </button>
       </form>
       <p v-if="error">{{ error }}</p>
       <p v-if="success">{{ success }}</p>
@@ -47,7 +49,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .form-holder {
   display: flex;
   align-items: center;
@@ -112,6 +114,17 @@
     5px 5px 15px #41465b,
     inset 5px 5px 10px #212121,
     inset -5px -5px 10px #212121;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: #4c566a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
 .sbutton:hover {
@@ -235,10 +248,13 @@
 </style>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import IconLoading from '@/components/icons/IconLoading.vue'
 import { useAuthStore } from '@/store/auth'
 import { createClient } from '@supabase/supabase-js'
 import { nanoid } from 'nanoid'
-import { convertImage } from '@/store/helper';
+import { convertImage } from '@/store/helper'
+
 
 export default {
   data() {
@@ -255,7 +271,8 @@ export default {
       selectedFile: null,
       supabase: null,
       uploadError: '',
-      authStore: ''
+      authStore: '',
+      isRegistering: false,
     }
   },
 
@@ -279,7 +296,7 @@ export default {
       const fileToUpload = await convertImage(file)
       const { data, error } = await this.supabase.storage
         .from('profilepics')
-        .upload('/' + nanoid(), fileToUpload, {contentType: fileToUpload.type})
+        .upload('/' + nanoid(), fileToUpload, { contentType: fileToUpload.type })
       if (error) {
         console.error('Error uploading file:', error)
       } else {
@@ -291,6 +308,7 @@ export default {
     },
     async register() {
       try {
+        this.isRegistering = true
         await this.uploadFile(this.selectedFile)
         console.log(this.authStore.csrfToken)
 
@@ -320,6 +338,7 @@ export default {
         } else {
           this.error = data.error || 'Registration failed'
         }
+        this.isRegistering = false
       } catch (err) {
         this.error = 'An error occurred during registration: ' + err
       }

@@ -5,8 +5,8 @@
     </div>
     <main class="feedarea">
       <div class="h-2"></div>
-      <div class="post" v-for="post in posts" :key="post.ipost_id">
-        <SinglePost :post="post" />
+      <div class="post" v-for="post in posts" :key="post.post_id">
+        <SinglePost :post_id="post.post_id" />
       </div>
       <button class="create-post-button" @click="createPost = !createPost"><PenIcon /></button>
     </main>
@@ -83,7 +83,7 @@ onMounted(async () => {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 .feedarea {

@@ -19,8 +19,8 @@
 /* From Uiverse.io by david-mohseni */ 
 .loader {
   position: relative;
-  width: 8px;
-  height: 8px;
+  width: 25px;
+  height: 25px;
   border-radius: 10px;
 }
 

@@ -185,10 +185,10 @@ def get_post_details(request, pk):
             'post_id': post.post_id,
             'user_id': post.user_id,
             'content': post.content,
-            'image': post.image,
+            'image': post.media_url,
             'likes': post.likes.all().count(),
             'created_at': post.created_at,
-            'updated_at': post.updated_at,
+            # 'updated_at': post.updated_at,
             'user': {
                 'username': post.user.username,
                 'first_name': post.user.first_name,

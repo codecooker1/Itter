@@ -198,7 +198,7 @@ def get_post_details(request, pk):
             }
         })
     except Post.DoesNotExist:
-        return JsonResponse({'message': 'Post not found'}, status=404)
+        return JsonResponse({'message': 'Post not found'})
     
 def update_like(request):
     data = json.loads(request.body)

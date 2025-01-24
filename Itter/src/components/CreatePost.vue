@@ -26,12 +26,13 @@
 
 <script setup>
 import IconLoading from '@/components/icons/IconLoading.vue';
-import { ref, defineEmits, onMounted } from 'vue';
+import { ref, defineEmits, onMounted, inject } from 'vue';
 import { useAuthStore } from '@/store/auth.js';
 import { createClient } from '@supabase/supabase-js';
 import { convertImage } from '@/store/helper';
 import { nanoid } from 'nanoid';
 
+const hostname = inject('hostname')
 
 const authStore = useAuthStore()
 const postContent = ref('')
@@ -76,7 +77,7 @@ async function createPost() {
     await uploadFile(selectedFile.value)
   else
     console.log(`no file selected`)
-  const response = await fetch('https://itter.pythonanywhere.com/api/create/post', {
+  const response = await fetch(`${hostname}/api/create/post`, {
     method: 'POST',
     credentials: 'include',
     headers: {

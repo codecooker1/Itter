@@ -17,5 +17,7 @@ export default defineConfig({
   server: {
     port: 9000,
     host: true
-  }
+  },
+  envDir: './env',
+  envPrefix: 'VITE_',
 })

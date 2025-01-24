@@ -1,3 +1,2 @@
-fnm env --use-on-cd | Out-String | Invoke-Expression
-node -v
-npm run dev
+wt.exe --window 0 new-tab --startingDirectory "$(pwd)\itter_backend" --profile "Windows PowerShell" PowerShell -noexit -file "..\run_backend.ps1"
+wt.exe --window 0 new-tab --startingDirectory "$(pwd)" --profile "Windows PowerShell" PowerShell -noexit -file ".\run_frontend.ps1"

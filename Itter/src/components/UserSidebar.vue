@@ -2,13 +2,13 @@
   <aside class="userbar">
     <form class="mx-auto" @submit.prevent="createPost" method="post">
       <label for="message" class="block mb-2 text-sm font-medium text-white">What's on your mind?</label>
-      <textarea id="message " rows="4" v-model="content"
+      <textarea id="message " rows="4" v-model="postContent"
         class="block p-2.5 w-full text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
         placeholder="What's on your mind..." name="message" required></textarea>
         <label for="pi" @click="triggerFileInput"><i class="fa fa-cloud-upload"></i> Upload Image
           <input style="padding: 0px" @change="handleFileUpload($event)" placeholder="profile_image" id="pi" type="file"
             name="profile_image" accept="image/*" class="textInput" capture></label>
-
+<br><br>
             <button class="sbutton" type="submit" name="submit">
             <IconLoading v-if="isPosting" /> Create Post
           </button>
@@ -29,28 +29,30 @@
 </template> 
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref, inject } from 'vue'
 import { useAuthStore } from '@/store/auth.js'
 import { convertImage } from '@/store/helper.js'
 import { nanoid } from 'nanoid'
 import IconLoading from '@/components/icons/IconLoading.vue'
+import { createClient } from '@supabase/supabase-js'
 
 const error = ref(null)
-const authStore = useAuthStore()
+const authStore = ref(useAuthStore())
 const postContent = ref('')
 const isPosting = ref(false)
 const supabase = ref(null)
 const media = ref(null)
 const media_url = ref('')
+const hostname = inject('hostname')
 
 async function uploadFile(file) {
   console.log(`uploading file`)
   const processedFile = await convertImage(file)
   console.log(`file: ${processedFile}`)
-  console.log(`usernamr: ${authStore.user.username}`)
+  console.log(`usernamr: ${authStore.value.user.username}`)
   const { data, error } = await supabase.value.storage
     .from('ItterMedia')
-    .upload(`/${authStore.user.username}/${nanoid()}.webp`, processedFile, {contentType: "image/webp"})
+    .upload(`/${authStore.value.user.username}/${nanoid()}.webp`, processedFile, {contentType: "image/webp"})
 
   if (error) {
     console.error('Error uploading file:', error)
@@ -64,17 +66,17 @@ async function uploadFile(file) {
 
 async function createPost() {
   isPosting.value = true
-  authStore.setCsrfToken()
+  authStore.value.setCsrfToken()
   if(media.value){
     await uploadFile(media.value)
   }
-  console.log(`csrf from before post ${authStore.csrfToken}`)
-  const response = await fetch('https://itter.pythonanywhere.com/api/create/post', {
+  console.log(`csrf from before post ${authStore.value.csrfToken}`)
+  const response = await fetch(`${hostname}/api/create/post`, {
     method: 'POST',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      'X-CSRFToken': authStore.csrfToken
+      'X-CSRFToken': authStore.value.csrfToken
     },
     body: JSON.stringify({
       content: postContent.value
@@ -93,6 +95,7 @@ async function createPost() {
     postContent.value = ''
     
   }
+  isPosting.value = false
 }
 
 async function handleFileUpload(event){
@@ -102,9 +105,18 @@ async function handleFileUpload(event){
 function triggerFileInput(){
   document.getElementById('pi').click()
 }
+
+onMounted(async () => {
+  authStore.value = useAuthStore()
+  authStore.value.fetchUser()
+  supabase.value = createClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_KEY
+  )
+})
 </script>
 
-<style>
+<style scoped>
 .userbar {
   display: flex;
   flex-direction: column;
@@ -168,4 +180,19 @@ input[type="file"] {
 .user-info {
   text-align: right;
 }
+
+.sbutton {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: #4c566a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
 </style>

@@ -202,23 +202,23 @@ def get_post_details(request, pk):
     
 def update_like(request):
     data = json.loads(request.body)
-    
-    post = Post.objects.get(post_id=data.post_id)
+    post = Post.objects.get(post_id=data["post_id"])
     
     if request.method == 'POST' and request.user.is_authenticated:
-        if not Like.objects.get(user=user, post=post):
-            like = Like.objects.create(user=user, post=post)
-            like.save()
-        else:
-            like = Like.objects.get(user=user, post=post)
+        try:
+            like = Like.objects.get(post=post, user=request.user)
             like.delete()
+        except Like.DoesNotExist:
+            like = Like.objects.create(post=post, user=request.user)
+            like.save()
         return JsonResponse({'message': 'Like updated successfully!'})
     if request.method == 'GET':
-        if Like.objects.get(post=post):
-            return JsonResponse({'isLikedAlready': True})
-        else:
-            return JsonResponse({'isLikedAlready': False})
-    return JsonResponse({'message': 'Invalid request method'}, status=405)
+        try:
+            Like.objects.get(post=post)
+            return JsonResponse({'isLikedAlready': True, 'likes': post.likes.all().count()})
+        except Like.DoesNotExist:
+            return JsonResponse({'isLikedAlready': False, 'likes': post.likes.all().count()})
+    return JsonResponse({'message': f'Invalid request method'}, status=405)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

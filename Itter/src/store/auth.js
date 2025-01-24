@@ -2,17 +2,6 @@ import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
 
-  /**
-   * The state of the authentication store.
-   *
-   * The state is saved in `localStorage` under the key `authState`.
-   *
-   * @type {{
-   *   user: null | import('~/types').User,
-   *   isAuthenticated: boolean,
-   *   csrfToken: null | string
-   * }}
-   */
   state: () => {
     const storedState = localStorage.getItem('authState')
     return storedState
@@ -21,27 +10,24 @@ export const useAuthStore = defineStore('auth', {
           user: null,
           isAuthenticated: false,
           csrfToken: null,
+          Host: null,
         }
   },
   actions: {
-    /**
-     * Sets the CSRF token for the current session.
-     *
-     * This is called on every page load to ensure the CSRF token is always
-     * up-to-date.
-     */
+
     async setCsrfToken() {
-      const response = await fetch('https://itter.pythonanywhere.com/api/set-csrf-token', {
+      this.Host = import.meta.env.VITE_HOSTNAME
+      const response = await fetch(`${this.Host}/api/set-csrf-token`, {
         method: 'GET',
         credentials: 'include'
       })
       const data = await response.json()
       this.csrfToken = data.csrfToken
-      console.log(`csrf token is \n ${this.csrfToken} vs ${data.csrfToken}`)
+      
     },
     async login(email, password, router = null) {
       this.setCsrfToken()
-      const response = await fetch('https://itter.pythonanywhere.com/api/login', {
+      const response = await fetch(`${this.Host}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,8 +39,6 @@ export const useAuthStore = defineStore('auth', {
       const data = await response.json()
       if (data.success) {
         this.isAuthenticated = true
-        console.log(`data is \n ${data}`)
-        console.log(data.csrfToken, data.sessionid)
         this.saveState()
         if (router) {
           await router.push({ name: 'home' })
@@ -78,7 +62,7 @@ export const useAuthStore = defineStore('auth', {
     async logout(router = null) {
       this.setCsrfToken()
       try {
-        const response = await fetch('https://itter.pythonanywhere.com/api/logout', {
+        const response = await fetch(`${this.Host}/api/logout`, {
           method: 'POST',
           headers: {
             'X-CSRFToken': this.csrfToken
@@ -108,7 +92,7 @@ export const useAuthStore = defineStore('auth', {
     async fetchUser() {
       this.setCsrfToken()
       try {
-        const response = await fetch('https://itter.pythonanywhere.com/api/user', {
+        const response = await fetch(`${this.Host}/api/user`, {
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
@@ -124,7 +108,7 @@ export const useAuthStore = defineStore('auth', {
           this.isAuthenticated = false
         }
       } catch (error) {
-        console.error('Failed to fetch user', error)
+        console.error('Failed to fetch user\n', error)
         this.user = null
         this.isAuthenticated = false
       }
@@ -144,6 +128,7 @@ export const useAuthStore = defineStore('auth', {
           user: this.user,
           isAuthenticated: this.isAuthenticated,
           csrfToken: this.csrfToken,
+          Host: this.Host,
         })
       )
     }

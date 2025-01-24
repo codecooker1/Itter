@@ -31,7 +31,7 @@
 <script setup>
 import ProfileIcon from './icons/ProfileIcon.vue'
 import LikeButton from './LikeButton.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { useAuthStore } from '@/store/auth.js'
 
 const profile_name = ref('default_name')
@@ -40,6 +40,7 @@ const profilePictureUrl = ref('')
 const content = ref('')
 const media = ref('')
 const likes = ref(0)
+const hostname = inject('hostname')
 
 const authstore = useAuthStore()
 
@@ -49,23 +50,25 @@ const props = defineProps(['post_id'])
 
 async function getPostContent() {
   console.log(props.post_id)
-  const request = await fetch(`https://itter.pythonanywhere.com/api/get/post/detail/${props.post_id}`)
-  const post = request.json()
-  profile_name.value = post.user.first_name + ' ' + props.post.user.last_name
+  const request = await fetch(`${hostname}/api/post/detail/${props.post_id}`)
+  const post = await request.json()
+  profile_name.value = post.user.first_name + ' ' + post.user.last_name
   profile_handle.value = post.user.username
   profilePictureUrl.value = post.user.profile_image
   content.value = post.content
   media.value = post.image
   likes.value = post.likes
+  // console.log(`post: ${{'profile_name':profile_name.value, 'profile_handle': profile_handle.value, 'profilePictureUrl':profilePictureUrl.value, 'content':content.value, 'media':media.value, 'likes':likes.value}}`)
 }
 
 onMounted(async () => {
   getPostContent()
+  setInterval(updateLikeCount, 1000)
 })
 
 async function likePost() {
-  console.log(props.post.post_id) 
-  const response = await fetch(`https://itter.pythonanywhere.com/api/like/post/${props.post_id}`, {
+  console.log(props.post_id) 
+  const response = await fetch(`${hostname}/api/like/post/`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -80,6 +83,12 @@ async function likePost() {
   const data = await response.json()
 
   console.log(data)
+}
+
+async function updateLikeCount(){
+  const response = await fetch(`${hostname}/api/post/detail/${props.post_id}`)
+  const post = await response.json()
+  likes.value = post.likes
 }
 </script>
 

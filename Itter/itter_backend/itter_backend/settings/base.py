@@ -28,11 +28,11 @@ SECRET_KEY = env['DJANGO_SECRET_KEY']
 DEBUG = True
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = ['https://codecooker1.github.io', "localhost"]
-CORS_ALLOWED_ORIGINS = ["http://localhost:9000", "codecooker1.github.io"]  # We add your frontend URL here.
-CSRF_TRUSTED_ORIGINS = ['http://localhost:9000', "codecooker1.github.io"]  # We add your frontend URL here.
+CORS_ORIGIN_WHITELIST = ["localhost"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:9000"]  # We add your frontend URL here.
+CSRF_TRUSTED_ORIGINS = ['http://localhost:9000']  # We add your frontend URL here.
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', "codecooker1.github.io"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 
@@ -92,23 +92,23 @@ WSGI_APPLICATION = 'itter_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': f'{env["DB_NAME"]}',
-        'USER': f'{env["DB_USER"]}',
-        'PASSWORD': f'{env["DB_PASS"]}',
-        'HOST': f'{env["DB_HOST"]}',
-        'PORT': f'{env["DB_PORT"]}',
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': BASE_DIR / 'db.sqlite3',
+   }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': f'{env["DB_NAME"]}',
+#         'USER': f'{env["DB_USER"]}',
+#         'PASSWORD': f'{env["DB_PASS"]}',
+#         'HOST': f'{env["DB_HOST"]}',
+#         'PORT': f'{env["DB_PORT"]}',
+#     }
+# }
 
 
 # Password validation

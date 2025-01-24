@@ -254,6 +254,7 @@ import { useAuthStore } from '@/store/auth'
 import { createClient } from '@supabase/supabase-js'
 import { nanoid } from 'nanoid'
 import { convertImage } from '@/store/helper'
+import { inject } from 'vue'
 
 
 export default {
@@ -273,6 +274,7 @@ export default {
       uploadError: '',
       authStore: '',
       isRegistering: false,
+      hostname: inject('hostname')
     }
   },
 
@@ -312,7 +314,7 @@ export default {
         await this.uploadFile(this.selectedFile)
         console.log(this.authStore.csrfToken)
 
-        const response = await fetch('https://itter.pythonanywhere.com/api/create-user/', {
+        const response = await fetch(`${this.hostname}/api/create-user/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

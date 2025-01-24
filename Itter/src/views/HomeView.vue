@@ -23,16 +23,17 @@ import SidebarView from '@/components/SidebarView.vue'
 import UserSidebar from '@/components/UserSidebar.vue'
 import CreatePost from '@/components/CreatePost.vue'
 // import IconQuil from '@/components/icons/IconQuil.vue'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, inject } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import PenIcon from '@/components/icons/PenIcon.vue'
 
 const posts = ref([])
 const authStore = useAuthStore()
 const createPost = ref(false)
+const hostname = inject('hostname')
 
 onMounted(async () => {
-  const response = await fetch('https://itter.pythonanywhere.com/api/feed/', {
+  const response = await fetch(`${hostname}/api/feed/`, {
     method: 'GET',
     credentials: 'include',
     headers: {

@@ -187,6 +187,7 @@ def get_post_details(request, pk):
             'content': post.content,
             'image': post.media_url,
             'likes': post.likes.all().count(),
+            "is_liked": post.is_liked(request.user),
             'created_at': post.created_at,
             # 'updated_at': post.updated_at,
             'user': {
@@ -211,14 +212,9 @@ def update_like(request):
         except Like.DoesNotExist:
             like = Like.objects.create(post=post, user=request.user)
             like.save()
-        return JsonResponse({'message': 'Like updated successfully!'})
+        return JsonResponse({'message': 'Like updated successfully!', 'isLikedAlready': post.is_liked(request.user)})
     if request.method == 'GET':
-        try:
-            Like.objects.get(post=post)
-            return JsonResponse({'isLikedAlready': True, 'likes': post.likes.all().count()})
-        except Like.DoesNotExist:
-            return JsonResponse({'isLikedAlready': False, 'likes': post.likes.all().count()})
-    return JsonResponse({'message': f'Invalid request method'}, status=405)
+        return JsonResponse({'isLikedAlready': post.is_liked(request.user), 'likes': post.likes.all().count()})
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -242,3 +238,5 @@ class PostDetailsView(RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = 'pk'
+    
+    

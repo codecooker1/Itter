@@ -18,7 +18,7 @@
     <div class="h-2"></div>
     <div class="action-bar">
       <div class="action-btn">
-        <LikeButton @click="likePost" />
+        <LikeButton @click="likePost" :isLiked="isLiked" />
         <p>{{ likes }}</p>
       </div>
       <!-- <p>Repost</p>
@@ -31,7 +31,7 @@
 <script setup>
 import ProfileIcon from './icons/ProfileIcon.vue'
 import LikeButton from './LikeButton.vue'
-import { ref, onMounted, inject } from 'vue'
+import { ref, inject, onBeforeMount, provide } from 'vue'
 import { useAuthStore } from '@/store/auth.js'
 
 const profile_name = ref('default_name')
@@ -40,9 +40,12 @@ const profilePictureUrl = ref('')
 const content = ref('')
 const media = ref('')
 const likes = ref(0)
+const isLiked = ref(false)
 const hostname = inject('hostname')
 
 const authstore = useAuthStore()
+
+provide('liked', isLiked)
 
 // const user = authstore.user
 
@@ -50,7 +53,10 @@ const props = defineProps(['post_id'])
 
 async function getPostContent() {
   console.log(props.post_id)
-  const request = await fetch(`${hostname}/api/post/detail/${props.post_id}`)
+  const request = await fetch(`${hostname}/api/post/detail/${props.post_id}`, {
+    method: "GET",
+    credentials: "include",
+  })
   const post = await request.json()
   profile_name.value = post.user.first_name + ' ' + post.user.last_name
   profile_handle.value = post.user.username
@@ -58,12 +64,13 @@ async function getPostContent() {
   content.value = post.content
   media.value = post.image
   likes.value = post.likes
-  // console.log(`post: ${{'profile_name':profile_name.value, 'profile_handle': profile_handle.value, 'profilePictureUrl':profilePictureUrl.value, 'content':content.value, 'media':media.value, 'likes':likes.value}}`)
+  isLiked.value = post.is_liked
+  console.log(isLiked.value)
 }
 
-onMounted(async () => {
+onBeforeMount(async () => {
   getPostContent()
-  setInterval(updateLikeCount, 1000)
+  setInterval(updateLikeCount, 50000)
 })
 
 async function likePost() {
@@ -83,6 +90,10 @@ async function likePost() {
   const data = await response.json()
 
   console.log(data)
+  if(isLiked.value) likes.value -= 1
+  else likes.value += 1
+
+  isLiked.value = !isLiked.value
 }
 
 async function updateLikeCount(){

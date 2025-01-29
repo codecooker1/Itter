@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.10",
+    "k6": "^0.0.0",
     "nanoid": "^5.0.9",
     "pinia": "^2.2.4",
     "vue": "^3.4.29",

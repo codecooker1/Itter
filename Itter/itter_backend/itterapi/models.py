@@ -71,8 +71,11 @@ class Post(models.Model):
         )
         
     @property
-    def likes(self): 
+    def likes(self):
         return Like.objects.filter(post=self).count()
+    
+    def is_liked(self, user):
+        return Like.objects.filter(post=self, user=user).exists() if user.is_authenticated else False
 
 # class Repost(models.Model):
 #     pass

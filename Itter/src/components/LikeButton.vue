@@ -1,6 +1,19 @@
+<script setup>
+import { defineProps, onMounted, inject } from 'vue';
+
+const props = defineProps(['isLiked'])
+
+const liked = inject('liked')
+
+onMounted(() => {
+  liked.value = props.isLiked
+   console.log(`from like button ${liked.value}`)
+})
+</script>
+
 <template>
   <div title="Like" class="heart-container">
-    <input id="Give-It-An-Id" class="checkbox" type="checkbox" />
+    <input id="Give-It-An-Id" class="checkbox" type="checkbox" :checked="liked"/>
     <div class="svg-container">
       <svg xmlns="http://www.w3.org/2000/svg" class="svg-outline" viewBox="0 0 24 24">
         <path
@@ -60,6 +73,11 @@
 .heart-container .svg-filled {
   animation: keyframes-svg-filled 1s;
   display: none;
+}
+
+.heart-container .svg-filled.show {
+  animation: keyframes-svg-filled 1s;
+  display: block;
 }
 
 .heart-container .svg-celebrate {

@@ -160,6 +160,7 @@ def user(request):
                 'profile_image': request.user.userprofile.profile_image,
                 'bio': request.user.userprofile.bio,
                 'following': request.user.userprofile.following,
+                'followers': request.user.userprofile.followers,
             }
         )
     return JsonResponse(

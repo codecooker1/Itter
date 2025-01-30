@@ -5,10 +5,11 @@
     </div>
     <main class="feedarea">
       <div class="h-2"></div>
+      <RouterView />
       <div class="post" v-for="post in posts" :key="post.post_id">
         <SinglePost :post_id="post.post_id" />
       </div>
-      <button class="create-post-button" @click="createPost = !createPost"><PenIcon /></button>
+      <button class="create-post-button" @click="triggerCreatePost" v-if="authStore.user"><PenIcon /></button>
     </main>
     <div class="sidebar-wrapper">
       <SidebarView />
@@ -26,6 +27,7 @@ import CreatePost from '@/components/CreatePost.vue'
 import { onMounted, ref, inject } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import PenIcon from '@/components/icons/PenIcon.vue'
+import { RouterView } from 'vue-router';
 
 const posts = ref([])
 const authStore = useAuthStore()
@@ -46,6 +48,10 @@ onMounted(async () => {
   posts.value = data.posts
   console.log(posts)
 })
+
+async function triggerCreatePost(){
+  createPost.value = !createPost.value
+}
 </script>
 
 <style>

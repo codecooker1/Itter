@@ -6,7 +6,8 @@ const AboutView = () => import('@/views/AboutView.vue')
 const SignupView = () => import('@/views/SignupView.vue')
 const SigninView = () => import('@/views/SigninView.vue')
 const TestComponent = () => import('@/components/CreatePost.vue')
-const ProfileView = () => import('@/views/ProfileView.vue')
+const ProfileView = () => import('@/views/nested/ProfileView.vue')
+const FeedView = () => import('@/views/nested/FeedView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,14 +24,23 @@ const router = createRouter({
     },
     {
       path: '/',
-      name: 'home',
       component: HomeView,
       children:[
+        {
+          path: '',
+          name: 'home',
+          component: FeedView,
+        },
         { 
-          path: 'u',
+          path: 'u/:username',
           name  : 'user',
           component: ProfileView,
-        }
+        },
+        {
+          path: '/Profile',
+          name: 'profile',
+          component: ProfileView,
+        },
       ]
     },
     { path: '/gg', component: RtView },
@@ -42,11 +52,6 @@ const router = createRouter({
     {
       path: '/Notifications',
       name: 'notifications',
-      component: HomeView
-    },
-    {
-      path: '/Profile',
-      name: 'profile',
       component: HomeView
     },
     {

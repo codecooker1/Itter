@@ -39,9 +39,10 @@ export const useAuthStore = defineStore('auth', {
       const data = await response.json()
       if (data.success) {
         this.isAuthenticated = true
+        this.fetchUser()
         this.saveState()
         if (router) {
-          await router.push({ name: 'home' })
+          await router.push('/')
         }
       } else {
         this.user = null

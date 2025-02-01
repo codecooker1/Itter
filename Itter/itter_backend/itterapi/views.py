@@ -167,6 +167,22 @@ def user(request):
         {'message': 'Not logged in'}, status=401
     )
     
+def get_user(request, username):
+    try:
+        user = User.objects.get(username=username)
+        return JsonResponse({
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'profile_image': user.userprofile.profile_image,
+            'bio': user.userprofile.bio,
+            'following': user.userprofile.following,
+            'followers': user.userprofile.followers,
+        })
+    except User.DoesNotExist:
+        return JsonResponse({'message': 'User not found'}, status=404)
+    
 from django.forms.models import model_to_dict
 
 def get_feed(request):

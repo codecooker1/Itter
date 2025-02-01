@@ -1,17 +1,18 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin
 from .models import UserProfile, Post, Like, Follow
 
 
-class LikeAdmin(admin.ModelAdmin):
+class LikeAdmin(ModelAdmin):
     list_display = ['user', 'post', 'created_at']
     
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(ModelAdmin):
     list_display = ['user', 'content', 'media_url', 'created_at']
     
-class FollowAdmin(admin.ModelAdmin):
+class FollowAdmin(ModelAdmin):
     list_display = ['follower', 'following']
     
-class UserProfileAdmin(admin.ModelAdmin):
+class UserProfileAdmin(ModelAdmin):
     list_display = ['user', 'bio','profile_image', 'created_at', 'bio']
 
 # Register your models here.

@@ -4,11 +4,7 @@
       <UserSidebar />
     </div>
     <main class="feedarea">
-      <div class="h-2"></div>
       <RouterView />
-      <div class="post" v-for="post in posts" :key="post.post_id">
-        <SinglePost :post_id="post.post_id" />
-      </div>
       <button class="create-post-button" @click="triggerCreatePost" v-if="authStore.user"><PenIcon /></button>
     </main>
     <div class="sidebar-wrapper">
@@ -19,7 +15,7 @@
 </template>
 
 <script setup>
-import SinglePost from '@/components/SinglePost.vue'
+// import SinglePost from '@/components/SinglePost.vue'
 import SidebarView from '@/components/SidebarView.vue'
 import UserSidebar from '@/components/UserSidebar.vue'
 import CreatePost from '@/components/CreatePost.vue'

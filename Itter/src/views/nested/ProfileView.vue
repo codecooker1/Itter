@@ -9,10 +9,10 @@
       <p>{{ bio }}</p>
     </div>
     <div class="profile-stats">
-      <div class="stat">
+      <!-- <div class="stat">
         <span class="stat-number">{{ posts.length }}</span>
         <span class="stat-label">Posts</span>
-      </div>
+      </div> -->
       <div class="stat">
         <span class="stat-number">{{ followers }}</span>
         <span class="stat-label">Followers</span>
@@ -26,38 +26,40 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
-import { useAuthStore } from '@/store/auth'
+import { ref, onMounted, inject,  } from 'vue'
+// import { useAuthStore } from '@/store/auth'
+import { useRoute } from 'vue-router'
 
-const authStore = useAuthStore()
 const profileImage = ref('')
 const firstName = ref('')
 const lastName = ref('')
 const username = ref('')
 const bio = ref('')
-const posts = ref([])
+// const posts = ref([])
 const followers = ref(0)
 const following = ref(0)
 const hostname = inject('hostname')
+const route = useRoute()
 
 onMounted(async () => {
-  profileImage.value = authStore.user.profile_image
-  firstName.value = authStore.user.first_name
-  lastName.value = authStore.user.last_name
-  username.value = authStore.user.username
-  bio.value = authStore.user.bio
-
-  const response = await fetch(`${hostname}/api/user/`, {
+  const response = await fetch(`${hostname}/api/user/detail/${route.params.username}`, {
     method: 'GET',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
   })
+
   const data = await response.json()
+
+  profileImage.value = data.profile_image
+  firstName.value = data.first_name
+  lastName.value = data.last_name
+  username.value = data.username
+  bio.value = data.bio
   followers.value = data.followers
   following.value = data.following
-  posts.value = data.posts
+  // posts.value = data.posts
 })
 </script>
 
@@ -70,6 +72,9 @@ onMounted(async () => {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  min-width: 600px;
+  border-radius: 15px;
+  height: 100vh;
 }
 
 .profile-header {

@@ -19,11 +19,11 @@ class UserProfile(models.Model):
     
     @property
     def followers(self):
-        return Follow.objects.filter(follower=self.user).count()
+        return Follow.objects.filter(followee=self.user).count()
 
     @property
     def following(self):
-        return Follow.objects.filter(followee=self.user).count()
+        return Follow.objects.filter(follower=self.user).count()
     
     # def change_profile_pic(self, pic):
     #     response = supabase.storage.from_('profilepics').upload('file_path', self.user.username, {'upsert': 'true'})

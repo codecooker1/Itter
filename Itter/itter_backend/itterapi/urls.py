@@ -41,5 +41,6 @@ urlpatterns = [
     path('post/detail/<pk>', views.get_post_details, name='post_details'),
     path('like/post/', views.update_like, name='update_like'),
     path('user/detail/<username>', views.get_user, name='get_user'),
+    path('user/follow/<username>', views.follow_user, name='follow_user'),
     
 ]

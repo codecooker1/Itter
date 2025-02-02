@@ -35,11 +35,7 @@ const router = createRouter({
           path: 'u/:username',
           name  : 'user',
           component: ProfileView,
-        },
-        {
-          path: '/Profile',
-          name: 'profile',
-          component: ProfileView,
+          // meta: { transition: 'slide-left' },
         },
       ]
     },

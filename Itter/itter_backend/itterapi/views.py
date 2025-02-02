@@ -167,9 +167,25 @@ def user(request):
         {'message': 'Not logged in'}, status=401
     )
     
+def follow_user(request, username):
+    try:
+        user = User.objects.get(username=username)
+        is_following = Follow.objects.filter(follower=request.user, followee=user).exists()
+        
+        if is_following:
+            follow = Follow.objects.get(follower=request.user, followee=user).delete()
+        else:
+            follow = Follow.objects.create(follower=request.user, followee=user)
+            follow.save()
+        return JsonResponse({'message': 'Followed successfully'})
+    except User.DoesNotExist:
+        return JsonResponse({'message': 'User not found'}, status=404)
+    
 def get_user(request, username):
     try:
         user = User.objects.get(username=username)
+        posts = Post.objects.filter(user = user).values()
+        is_following = Follow.objects.filter(follower=request.user, followee=user).exists()
         return JsonResponse({
             'username': user.username,
             'first_name': user.first_name,
@@ -179,6 +195,8 @@ def get_user(request, username):
             'bio': user.userprofile.bio,
             'following': user.userprofile.following,
             'followers': user.userprofile.followers,
+            'is_following': is_following,
+            'posts': list(posts),
         })
     except User.DoesNotExist:
         return JsonResponse({'message': 'User not found'}, status=404)
@@ -194,6 +212,27 @@ def get_feed(request):
         }
         post_data.append(post_dict)
     return JsonResponse({'posts': post_data})
+
+def get_user_posts(request, username):
+    try:
+        user = User.objects.get(username=username)
+        posts = Post.objects.filter(user=user).order_by('-created_at')
+        post_data = []
+        for post in posts:
+            post_dict = {
+                'post_id': post.post_id,
+                'user_id': post.user_id,
+                'content': post.content,
+                'image': post.media_url,
+                'likes': post.likes.all().count(),
+                "is_liked": post.is_liked(request.user),
+                'created_at': post.created_at,
+                # 'updated_at': post.updated_at,
+            }
+            post_data.append(post_dict)
+        return JsonResponse({'posts': post_data})
+    except User.DoesNotExist:
+        return JsonResponse({'message': 'User not found'}, status=404)
     
 def get_post_details(request, pk):
     try:

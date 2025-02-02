@@ -52,7 +52,7 @@ const logout = async () => {
             </SidebarButton>
           </li>
           <li>
-            <SidebarButton :link="{ name: 'profile' }">
+            <SidebarButton :link="{ name: 'user', params:{username: authStore.user.username }}">
               Profile
               <template #icon>
                 <IconProfile />

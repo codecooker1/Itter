@@ -4,15 +4,16 @@
       <img :src="profileImage" alt="Profile Image" class="profile-image" />
       <h1 class="profile-name">{{ firstName }} {{ lastName }}</h1>
       <p class="profile-handle">@{{ username }}</p>
+      <button @click="followUser" class="follow-button">{{ followtext }}</button>
     </div>
     <div class="profile-bio">
       <p>{{ bio }}</p>
     </div>
     <div class="profile-stats">
-      <!-- <div class="stat">
+      <div class="stat">
         <span class="stat-number">{{ posts.length }}</span>
         <span class="stat-label">Posts</span>
-      </div> -->
+      </div>
       <div class="stat">
         <span class="stat-number">{{ followers }}</span>
         <span class="stat-label">Followers</span>
@@ -23,23 +24,30 @@
       </div>
     </div>
   </div>
+  <div class="post" v-for="post in posts" :key="post.post_id">
+        <SinglePost :post_id="post.post_id" />
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, inject,  } from 'vue'
-// import { useAuthStore } from '@/store/auth'
+import { useAuthStore } from '@/store/auth'
 import { useRoute } from 'vue-router'
+import SinglePost from '@/components/SinglePost.vue'
 
 const profileImage = ref('')
 const firstName = ref('')
 const lastName = ref('')
 const username = ref('')
 const bio = ref('')
-// const posts = ref([])
+const posts = ref([])
 const followers = ref(0)
 const following = ref(0)
 const hostname = inject('hostname')
 const route = useRoute()
+const authStore = useAuthStore()
+const followtext = ref('Follow')
+const is_following = ref(false)
 
 onMounted(async () => {
   const response = await fetch(`${hostname}/api/user/detail/${route.params.username}`, {
@@ -59,8 +67,29 @@ onMounted(async () => {
   bio.value = data.bio
   followers.value = data.followers
   following.value = data.following
-  // posts.value = data.posts
+  posts.value = data.posts
+  is_following.value = data.is_following
+  followtext.value = is_following.value ? 'Unfollow' : 'Follow'
 })
+
+async function followUser() {
+  const response = await fetch(`${hostname}/api/user/follow/${route.params.username}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': authStore.csrfToken,
+    },
+  })
+  const data = await response.json() 
+  
+  if (data){
+    is_following.value = !is_following.value
+    followtext.value = is_following.value ? 'Unfollow' : 'Follow'
+  }
+
+  console.log(data)
+}
 </script>
 
 <style scoped>
@@ -74,7 +103,7 @@ onMounted(async () => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   min-width: 600px;
   border-radius: 15px;
-  height: 100vh;
+  height: calc(fit-content + 40px);
 }
 
 .profile-header {

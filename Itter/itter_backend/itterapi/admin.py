@@ -1,13 +1,12 @@
 from django.contrib import admin
 
 from unfold.admin import ModelAdmin
+from django.contrib.auth.models import User, Group
 
 from .models import UserProfile, Post, Like, Follow
 
-admin.site.unregister(UserProfile)
-admin.site.unregister(Post)
-admin.site.unregister(Like)
-admin.site.unregister(Follow)
+admin.site.unregister(User)
+admin.site.unregister(Group)
 
 @admin.register(Like)
 class LikeAdmin(ModelAdmin):

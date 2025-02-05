@@ -33,7 +33,7 @@ class PostAdmin(ModelAdmin):
 
 @admin.register(Follow)
 class FollowAdmin(ModelAdmin):
-    list_display = ['follower', 'following']
+    list_display = ['follower', 'followee']
 
 @admin.register(UserProfile)
 class UserProfileAdmin(ModelAdmin):

@@ -13,6 +13,7 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=250)
     profile_image = models.URLField(default='https://jzydvbxwyynlezjnqbbd.supabase.co/storage/v1/object/public/profilepics/1%20(1).png')
     created_at = models.DateTimeField(auto_now_add=True)
+    verification_token = models.CharField(max_length=255, null=True)
      
     def __str__(self):
         return f'{self.user.username}\'s Profile'
@@ -25,9 +26,6 @@ class UserProfile(models.Model):
     def following(self):
         return Follow.objects.filter(follower=self.user).count()
     
-    # def change_profile_pic(self, pic):
-    #     response = supabase.storage.from_('profilepics').upload('file_path', self.user.username, {'upsert': 'true'})
-
     def change_profile_pic(self, file_path):
         try:
             response = supabase.storage.from_('profilepics').upload(f"profilepics/{self.user.username}.png", file_path, {"upsert": True})

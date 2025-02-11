@@ -42,5 +42,7 @@ urlpatterns = [
     path('like/post/', views.update_like, name='update_like'),
     path('user/detail/<username>', views.get_user, name='get_user'),
     path('user/follow/<username>', views.follow_user, name='follow_user'),
+    path('verify-email/<str:token>', views.verify_email, name='verify_email'),
+    path('test-mail/', views.test_mail, name='send_test_email'),
     
 ]

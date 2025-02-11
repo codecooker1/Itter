@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 import json
 from django.views.decorators.http import require_http_methods
@@ -12,8 +12,9 @@ from .serializers import UserProfileSerializer, PostSerializer, LikeSerializer, 
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import RetrieveAPIView
-import os
+import os, secrets
 from django.middleware.csrf import get_token
+from django.core.mail import send_mail
 # from . import forms
 
 url = os.environ["SUPABASE_URL"]
@@ -70,6 +71,24 @@ def create_user_and_profile(request):
             if user_form.is_valid():
                 # Save UserProfile object
                 profile = user_form.save()
+                user = profile.user
+                user.is_active = False
+                user.save()
+                
+                verification_token = secrets.token_urlsafe(32)
+                verification_url = request.build_absolute_uri(
+                    reverse('verify_email', args=[verification_token])
+                )
+                
+                send_mail(
+                    'Verify your email for Itter',
+                    f'Click the following link to verify your email: {verification_url}',
+                    'from@example.com',
+                    [user.email],
+                    fail_silently=False,
+                )
+                
+                profile.verification_token = verification_token
                 profile.save()
 
                 return JsonResponse({'message': 'User and profile created successfully!'}, status=201)
@@ -82,6 +101,19 @@ def create_user_and_profile(request):
             return JsonResponse({'error': 'Invalid JSON data'}, status=401)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+def verify_email(request, token):
+    try:
+        profile = get_object_or_404(UserProfile, verification_token=token)
+        user = profile.user
+        user.is_active = True
+        profile.verification_token = ''  # Clear the token
+        user.save()
+        return redirect("https://c")
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'error': 'Invalid verification token'}, status=400)
+
 
 @require_http_methods(['POST'])
 def create_post(request):
@@ -295,4 +327,11 @@ class PostDetailsView(RetrieveAPIView):
     serializer_class = PostSerializer
     lookup_field = 'pk'
     
-    
+
+
+def test_mail(request):
+    try:
+        send_mail('Subject here', 'Here is the message.', 'from@example.com', ['codecookermintz@proton.me'], fail_silently=False)
+        return JsonResponse({'message': 'Email sent successfully'})
+    except:
+        return JsonResponse({'message': 'Email failed to send'})

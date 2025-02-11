@@ -43,8 +43,8 @@
           <IconLoading v-if="isRegistering" /> Register
         </button>
       </form>
-      <p v-if="error">{{ error }}</p>
-      <p v-if="success">{{ success }}</p>
+      <p v-if="error" class="text-red-500">{{ error }}</p>
+      <p v-if="success" class="text-green-300">{{ success }}</p>
     </div>
   </div>
 </template>
@@ -333,10 +333,7 @@ export default {
         })
         const data = await response.json()
         if (response.ok) {
-          this.success = 'Registration successful! Please log in.'
-          setTimeout(() => {
-            this.$router.push('/Signin')
-          }, 1000)
+          this.success = 'Registration successful! Please Check your email for verification link to continue.'
         } else {
           this.error = data.error || 'Registration failed'
         }

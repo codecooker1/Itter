@@ -27,6 +27,13 @@ SECRET_KEY = env['DJANGO_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = env['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = env['EMAIL_PASS']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = ["localhost"]
 CORS_ALLOWED_ORIGINS = ["http://localhost:9000"]  # We add your frontend URL here.

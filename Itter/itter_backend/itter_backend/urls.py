@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import HttpResponse, redirect
+
+def default_view(request):
+    return HttpResponse('Welcome to the Itter API! Use /api/ to access the API endpoints.')
 
 urlpatterns = [
+    path('', default_view),
     path('admin/', admin.site.urls),
     path('api/', include('itterapi.urls')),
 ]

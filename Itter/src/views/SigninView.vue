@@ -1,7 +1,7 @@
 <template>
   <div class="form-holder">
     <div class="form-box">
-      <span class="title">Register</span>
+      <span class="title">Signin</span>
       <form @submit.prevent="signin" class="form">
         <div class="textInputWrapper">
           <label for="email">E-mail</label>

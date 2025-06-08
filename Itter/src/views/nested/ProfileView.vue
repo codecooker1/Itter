@@ -101,7 +101,8 @@ async function followUser() {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  min-width: 600px;
+  max-width: 600px;
+  width: 100%;
   border-radius: 15px;
   height: calc(fit-content + 40px);
 }

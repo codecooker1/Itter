@@ -20,30 +20,18 @@ import SidebarView from '@/components/SidebarView.vue'
 import UserSidebar from '@/components/UserSidebar.vue'
 import CreatePost from '@/components/CreatePost.vue'
 // import IconQuil from '@/components/icons/IconQuil.vue'
-import { onMounted, ref, inject } from 'vue';
+import { ref, inject } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import PenIcon from '@/components/icons/PenIcon.vue'
-import { RouterView } from 'vue-router';
+import { RouterView, useRouter } from 'vue-router';
 
-const posts = ref([])
+const router = useRouter()
 const authStore = useAuthStore()
 const createPost = ref(false)
+// eslint-disable-next-line no-unused-vars
 const hostname = inject('hostname')
 
-onMounted(async () => {
-  const response = await fetch(`${hostname}/api/feed/`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': authStore.csrfToken,
-      'Accept-Encoding': 'gzip, deflate, br',
-    },
-    })
-  const data = await response.json()
-  posts.value = data.posts
-  console.log(posts)
-})
+if(!authStore.isAuthenticated) router.push( { name: 'signin' } )
 
 async function triggerCreatePost(){
   createPost.value = !createPost.value

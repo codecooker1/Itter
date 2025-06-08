@@ -28,7 +28,9 @@ onMounted(async () => {
       'Accept-Encoding': 'gzip, deflate, br',
     },
   });
+
   const data = await response.json();
+
   posts.value = data.posts;
 });
 </script>

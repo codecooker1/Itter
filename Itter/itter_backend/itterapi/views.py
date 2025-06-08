@@ -57,15 +57,7 @@ def create_user_and_profile(request):
             data = json.loads(request.body)
 
             # Initialize forms with JSON data
-            user_form = UserProfileForm({
-                'firstname': data.get('firstname'),
-                'lastname': data.get('lastname'),
-                'username': data.get('username'),
-                'email': data.get('email'),
-                'password': data.get('password'),
-                'bio': data.get('bio'),
-                'profile_image': data.get('profile_image'),
-            })
+            user_form = UserProfileForm(data)
 
             # Validate forms
             if user_form.is_valid():
@@ -83,7 +75,7 @@ def create_user_and_profile(request):
                 send_mail(
                     'Verify your email for Itter',
                     f'Click the following link to verify your email: {verification_url}',
-                    'from@example.com',
+                    'fromitter@gmail.com',
                     [user.email],
                     fail_silently=False,
                 )
@@ -110,7 +102,7 @@ def verify_email(request, token):
         user.is_active = True
         profile.verification_token = ''  # Clear the token
         user.save()
-        return redirect("https://c")
+        return redirect("https://codecooker1.github.io/Signin")
     except UserProfile.DoesNotExist:
         return JsonResponse({'error': 'Invalid verification token'}, status=400)
 
